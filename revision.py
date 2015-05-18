@@ -24,8 +24,9 @@ class Revision(object):
 
     @property
     def source_folder(self):
-        if 'PROJECT_ROOT' not in dir(settings):
-            raise AttributeError('Missing settings attribute: \'PROJECT_ROOT\' required by revision field class')
-        return settings.PROJECT_ROOT
+        if 'BASE_DIR' not in dir(settings):
+            raise AttributeError(
+                'Missing settings attribute: \'BASE_DIR\' required by revision field class')
+        return settings.BASE_DIR
 
 site_revision = Revision()
