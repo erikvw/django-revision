@@ -1,7 +1,7 @@
 from django.db.models import CharField
 from django.utils.translation import ugettext as _
 
-from revision import site_revision
+from .revision import site_revision
 
 
 class RevisionField(CharField):
