@@ -7,7 +7,7 @@ class Revision(object):
 
     def __init__(self):
         self._revision = None
-        self.repo = Repo(self.source_folder, odbt=GitDB)
+        self.repo = Repo(self.working_folder, odbt=GitDB)
         try:
             self.tag = self.repo.git.describe(tags=True)
         except GitCommandError:  # if no tags, raises exception
@@ -23,10 +23,15 @@ class Revision(object):
         return '{0.tag!s}'.format(self)
 
     @property
-    def source_folder(self):
+    def working_folder(self):
+        """Returns the working directory of the git command.
+
+        This is the working tree directory if available or the .git directory
+        in case of bare repositories."""
+
         if 'BASE_DIR' not in dir(settings):
             raise AttributeError(
                 'Missing settings attribute: \'BASE_DIR\' required by revision field class')
-        return settings.BASE_DIR
+        return settings.BASE_DIR.ancestor(1)
 
 site_revision = Revision()
