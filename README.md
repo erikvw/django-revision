@@ -14,7 +14,11 @@ For example:
 
 Reference git information from anywhere in your app:
 
-    from revision import site_revision
+    >>> from revision import site_revision
+    >>> site_revision.tag
+    '1.0'
+    >>>site_revision.revision
+    
 
 Installation
 ------------
