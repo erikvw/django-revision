@@ -16,7 +16,8 @@ class TestRevision(TestCase):
     def test_working_dir(self):
         DIR = '/tmp'
         self.assertRaises(InvalidGitRepositoryError, Repo, DIR, odbt=GitDB)
-        self.assertRaises(InvalidGitRepositoryError, Revision, working_dir=DIR)
+        revision = Revision(working_dir=DIR)
+        self.assertRaises(InvalidGitRepositoryError, getattr, revision, 'revision')
 
     def test_manual_revision1(self):
         """Assert the revision can be set manually."""
