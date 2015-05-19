@@ -12,8 +12,13 @@ class Revision(object):
             self.tag = self.repo.git.describe(tags=True)
         except GitCommandError:  # if no tags, raises exception
             self.tag = ''
-        self.branch = str(self.repo.active_branch)
-        self.commit = str(self.repo.active_branch.commit)
+        try:
+            self.branch = str(self.repo.active_branch)
+            self.commit = str(self.repo.active_branch.commit)
+            self.revision = '{0}:{1}'.format(self.branch, self.commit)
+        except TypeError:
+            self.branch = 'detached'
+            self.commit = str(self.repo.commit())
         self.revision = '{0}:{1}'.format(self.branch, self.commit)
 
     def __repr__(self):
