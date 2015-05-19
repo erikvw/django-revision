@@ -1,6 +1,6 @@
 # django-revision
 
-Add a revision field class to your Django models to track your source code git revision at the time of data collection.
+Add a Django field class to your models to track the git revision with every model instance saved. (Uses GitPython)
 
 For example:
 
@@ -18,6 +18,7 @@ Reference git information from anywhere in your app:
     >>> site_revision.tag
     '1.0'
     >>>site_revision.revision
+    'master:4c9c7f4f40e8db109d2b7b6d234defbe9d065d74'
     
 
 Installation

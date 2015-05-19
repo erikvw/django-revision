@@ -1,5 +1,4 @@
 from django.db.models import CharField
-from django.utils.translation import ugettext as _
 
 from .revision import site_revision
 
@@ -7,7 +6,7 @@ from .revision import site_revision
 class RevisionField(CharField):
     """Updates the value to the current git branch and commit."""
 
-    description = _("RevisionField")
+    description = "RevisionField"
 
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('editable', False)
