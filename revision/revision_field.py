@@ -17,7 +17,7 @@ class RevisionField(CharField):
         super(RevisionField, self).__init__(*args, **kwargs)
 
     def pre_save(self, model, add):
-        value = site_revision.revision
+        value = '{}'.format(':'.join([site_revision.tag, site_revision.revision]))
         setattr(model, self.attname, value)
         return value
 
