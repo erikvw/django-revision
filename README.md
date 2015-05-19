@@ -25,15 +25,25 @@ Installation
 ------------
 
     pip install django-revision
-    
+
 If BASE_DIR does not exist in settings, add it:
 
     BASE_DIR = Path(os.path.dirname(os.path.realpath(__file__)))
+
+If BASE_DIR is not the _git_ working directory, add, for example:
+
+    GIT_DIR = BASE_DIR.ancestor(1)
+    
+If you have a deployment case where the source folder is not a _git_ repo, you set the revision manually in settings:
+	
+	REVISION = '0.1.3'
+	
+If REVISION is specified in _settings_, _django-revision_ will use that value and not attempt to inspect the source folder -- _git_ repo or not. 
 
 Description
 -----------
 
 For research trial data, we need to track the source code revision at time of data collection. 
 
-We deploy our source as a git branch and django-revision picks up the tag or branch:commit and updates
+We deploy our source as a git branch and django-revision picks up the tag:branch:commit and updates
 each saved model instance as data is collected.
