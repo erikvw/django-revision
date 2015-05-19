@@ -30,3 +30,10 @@ If BASE_DIR does not exist in settings, add it:
 
     BASE_DIR = Path(os.path.dirname(os.path.realpath(__file__)))
 
+Description
+-----------
+
+For research trial data, we need to track the source code revision at time of data collection. 
+
+We deploy our source as a git branch and django-revision picks up the tag or branch:commit and updates
+each saved model instance as data is collected.
