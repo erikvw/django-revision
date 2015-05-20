@@ -12,7 +12,7 @@ class RevisionField(CharField):
         kwargs.setdefault('editable', False)
         kwargs.setdefault('blank', True)
         kwargs.setdefault('null', True)
-        kwargs.setdefault('max_length', 150)
+        kwargs.setdefault('max_length', site_revision.max_length)
         kwargs.setdefault('verbose_name', 'Revision')
         super(RevisionField, self).__init__(*args, **kwargs)
 
