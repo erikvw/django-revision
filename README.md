@@ -9,7 +9,7 @@ For example:
 
     from django.db import models
     
-    from revision import RevisionField
+    from django_revision import RevisionField
     
     class TestModel(models.Model):
 
@@ -17,7 +17,7 @@ For example:
 
 Reference git information from anywhere in your app:
 
-    >>> from revision import site_revision
+    >>> from django_revision import site_revision
     >>> site_revision.tag
     '1.0'
     >>>site_revision.revision
