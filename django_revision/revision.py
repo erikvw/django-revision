@@ -17,7 +17,7 @@ class Revision(object):
         return '{0}({1.working_dir!r}, {1.manual_revision!r})'.format(self.__class__.__name__, self)
 
     def __str__(self):
-        return '{0.revision!s}'.format(self)
+        return '{0.django_revision!s}'.format(self)
 
     @property
     def repo(self):
@@ -33,7 +33,7 @@ class Revision(object):
 
     @property
     def revision(self):
-        """Returns a revision string of tag:branch:commit."""
+        """Returns a django_revision string of tag:branch:commit."""
         if not self._revision:
             self._revision = self.manual_revision
             if not self._revision:
@@ -49,7 +49,7 @@ class Revision(object):
 
     @property
     def manual_revision(self):
-        """Returns a manually set revision string, e.g set by the user in settings.REVISION."""
+        """Returns a manually set django_revision string, e.g set by the user in settings.REVISION."""
         if self._manual_revision is None:
             try:
                 self._manual_revision = settings.REVISION
@@ -80,7 +80,7 @@ class Revision(object):
                 except AttributeError:
                     raise AttributeError(
                         'Missing settings attribute \'BASE_DIR\' or \'GIT_DIR\' '
-                        'required by django-revision.')
+                        'required by django-django_revision.')
         return self._working_dir
 
 site_revision = Revision()

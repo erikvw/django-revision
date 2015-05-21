@@ -1,6 +1,6 @@
 from django.db.models import CharField
 
-from .revision import site_revision
+from . import site_revision
 
 
 class RevisionField(CharField):
