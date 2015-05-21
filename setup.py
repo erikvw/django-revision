@@ -22,11 +22,6 @@ setup(
     long_description=README,
     zip_safe=False,
     keywords='django fields git',
-    install_requires=[
-        'Django>=1.7',
-        'GitPython>=1.0.0',
-        'unipath>=1.1',
-    ],
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
