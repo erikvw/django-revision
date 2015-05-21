@@ -80,7 +80,7 @@ class Revision(object):
                 except AttributeError:
                     raise AttributeError(
                         'Missing settings attribute \'BASE_DIR\' or \'GIT_DIR\' '
-                        'required by django-django_revision.')
+                        'required by django_revision.')
         return self._working_dir
 
 site_revision = Revision()
