@@ -22,9 +22,12 @@ setup(
     long_description=README,
     zip_safe=False,
     keywords='django fields git',
+<<<<<<< HEAD
+=======
     install_requires=[
         'GitPython>=1.0',
     ],
+>>>>>>> release/0.1.6
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
