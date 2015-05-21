@@ -16,10 +16,10 @@ install:
   - pip install -q -r requirements.txt --use-mirrors
 
 before_script:
-  - flake8 revision
+  - flake8 django_revision
 
 script: 
-  - coverage run --source=revision manage.py test
+  - coverage run --source=django_revision manage.py test
 
 after_success:
   - coveralls
