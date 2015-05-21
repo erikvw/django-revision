@@ -11,7 +11,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-revision',
-    version='0.1.6a1',
+    version='0.1.6',
     author=u'Erik van Widenfelt',
     author_email='ew2789@gmail.com',
     packages=find_packages(),
