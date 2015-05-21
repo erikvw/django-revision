@@ -1,9 +1,9 @@
-from git import Repo, GitDB, GitCommandError, InvalidGitRepositoryError
+from git import Repo, GitDB, InvalidGitRepositoryError
 
 from django.conf import settings
 from django.test.testcases import TestCase
 
-from revision import site_revision, Revision
+from ..revision import site_revision, Revision
 
 
 class TestRevision(TestCase):
@@ -17,14 +17,14 @@ class TestRevision(TestCase):
         DIR = '/tmp'
         self.assertRaises(InvalidGitRepositoryError, Repo, DIR, odbt=GitDB)
         revision = Revision(working_dir=DIR)
-        self.assertRaises(InvalidGitRepositoryError, getattr, revision, 'revision')
+        self.assertRaises(InvalidGitRepositoryError, getattr, revision, 'django_revision')
 
     def test_manual_revision1(self):
-        """Assert the revision can be set manually."""
+        """Assert the django_revision can be set manually."""
         revision = Revision(manual_revision='0.1.0')
         self.assertEqual(revision.revision, '0.1.0')
 
     def test_manual_revision2(self):
-        """Assert the revision can be set manually and a working_dir is ignored."""
+        """Assert the django_revision can be set manually and a working_dir is ignored."""
         revision = Revision(manual_revision='0.1.0', working_dir='/tmp')
         self.assertEqual(revision.revision, '0.1.0')
