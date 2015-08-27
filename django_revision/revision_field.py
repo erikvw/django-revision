@@ -12,12 +12,12 @@ class RevisionField(CharField):
         kwargs.setdefault('editable', False)
         kwargs.setdefault('blank', True)
         kwargs.setdefault('null', True)
-        kwargs.setdefault('max_length', site_revision.max_length)
+        kwargs.setdefault('max_length', 75)
         kwargs.setdefault('verbose_name', 'Revision')
         super(RevisionField, self).__init__(*args, **kwargs)
 
     def pre_save(self, model, add):
-        value = '{}'.format(':'.join([site_revision.tag, site_revision.revision]))
+        value = site_revision.revision
         setattr(model, self.attname, value)
         return value
 

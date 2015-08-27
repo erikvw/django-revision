@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_revision'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -103,3 +104,4 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 GIT_DIR = BASE_DIR.ancestor(1)
+REVISION = '0.1.0'
