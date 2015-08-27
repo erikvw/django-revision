@@ -19,9 +19,14 @@ class TestRevision(TransactionTestCase):
 
     def setUp(self):
         repo = Repo(settings.BASE_DIR.ancestor(1), odbt=GitDB)
-        self.tag = str(repo.git.describe(tags=True))
-        self.branch = str(repo.active_branch)
-        self.commit = str(repo.active_branch.commit)
+        try:
+            self.tag = str(repo.git.describe(tags=True))
+            self.branch = str(repo.active_branch)
+            self.commit = str(repo.active_branch.commit)
+        except TypeError:
+            self.tag = ''
+            self.branch = 'detached'
+            self.commit = str(repo.commit())
         self.revision = '{}:{}:{}'.format(self.tag, self.branch, self.commit)[0: 75]
 
     def test_model(self):
