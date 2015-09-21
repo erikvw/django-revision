@@ -2,7 +2,7 @@
 
 # django-revision
 
-Add a Django field class to your models to track the git revision with every model instance saved. (Uses GitPython)
+Add a Django field class to your models to track the git revision with every model instance saved. (Uses GitPython, does not work on pthon 3.2)
 
 For example:
 
@@ -26,21 +26,17 @@ Reference git information from anywhere in your app:
 Installation
 ------------
 
-    pip install django-revision
+Use `pip install -e` to get the latest version.
 
-If BASE_DIR does not exist in settings, add it:
 
-    BASE_DIR = Path(os.path.dirname(os.path.realpath(__file__)))
-
-If BASE_DIR is not the _git_ working directory, add, for example:
+Add  GIT_DIR to settings to let `django-revision` know the location of your _git_ working directory, for example:
 
     GIT_DIR = BASE_DIR.ancestor(1)
     
-If you have a deployment case where the source folder is not a _git_ repo, you set the revision manually in settings:
+If you have a deployment case where the source folder is not a _git_ repo, you can set the revision manually in settings:
 	
-	REVISION = '0.1.3'
+    REVISION = '0.1.3'
 	
-If REVISION is specified in _settings_, _django-revision_ will use that value and not attempt to inspect the source folder -- _git_ repo or not. 
 
 Description
 -----------
