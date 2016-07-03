@@ -14,13 +14,26 @@ For example:
 
         revision = RevisionField()
 
+... then
+
+    >>> test_model = TestModel.objects.create()
+    >>>test_model.revision
+    '0.1dev0'
+
+If the source is modified after the git tag was applied:
+
+    >>> test_model = TestModel.objects.create()
+    >>>test_model.revision
+    >>> '0.1dev0-35-ge9f632e:develop:e9f632e92143c53411290b576487f48c15156603'
+
 Reference git information from anywhere in your app:
 
     >>> from django_revision import site_revision
     >>> site_revision.tag
-    '1.0'
+    '0.1dev0'
     >>>site_revision.revision
-    'master:4c9c7f4f40e8db109d2b7b6d234defbe9d065d74'
+    '0.1dev0'
+
 
 For research trial data, we need to track the source code revision at time of data collection. We deploy our source as a git branch and django-revision picks up the tag:branch:commit and updates
 each saved model instance as data is collected.
