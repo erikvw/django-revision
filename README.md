@@ -26,8 +26,9 @@ Reference git information from anywhere in your app:
 Installation
 ------------
 
-Use `pip install -e` to get the latest version.
+Get the latest version:
 
+    pip install git+https://github.com/erikvw/django-revision@develop#egg=django_revision
 
 Add  GIT_DIR to settings to let `django-revision` know the location of your _git_ working directory, for example:
 
