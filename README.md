@@ -21,10 +21,11 @@ Reference git information from anywhere in your app:
     '1.0'
     >>>site_revision.revision
     'master:4c9c7f4f40e8db109d2b7b6d234defbe9d065d74'
-    
 
-Installation
-------------
+For research trial data, we need to track the source code revision at time of data collection. We deploy our source as a git branch and django-revision picks up the tag:branch:commit and updates
+each saved model instance as data is collected.
+
+### Installation
 
 Get the latest version:
 
@@ -37,12 +38,24 @@ Add  GIT_DIR to settings to let `django-revision` know the location of your _git
 If you have a deployment case where the source folder is not a _git_ repo, you can set the revision manually in settings:
 	
     REVISION = '0.1.3'
-	
 
-Description
------------
+### Using in a View and Template
+In the view's `get_context_data` set a context attribute to `revision.tag` or just use the `RevisionMixin`:
 
-For research trial data, we need to track the source code revision at time of data collection. 
+    from django_revision.views import RevisionMixin
 
-We deploy our source as a git branch and django-revision picks up the tag:branch:commit and updates
-each saved model instance as data is collected.
+    class MyView(RevisionMixin, TemplateView):
+        ...
+
+In your template:
+
+    {% block footer %} 
+	<footer class="footer">
+	  <div class="container">
+	    <div class="col-md-4"><p class="text-muted text-center"><small>{{ year }}&nbsp;{{ institution }}</small></p></div>
+	    <div class="col-md-4"><p class="text-muted text-center"><small>Revision: {{ revision }}</small></p></div>
+	    <div class="col-md-4"><p class="text-muted text-center"><small>For Research Purposes Only</small></p></div>
+	  </div>
+	</footer>
+    {% endblock footer %}
+
