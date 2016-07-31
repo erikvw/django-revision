@@ -1,4 +1,5 @@
 from django.conf import settings
+
 from git import Repo, GitDB, GitCommandError, InvalidGitRepositoryError
 
 

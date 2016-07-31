@@ -1,7 +1,6 @@
 from django import template
 from django_revision import site_revision
 
-
 register = template.Library()
 
 
@@ -14,7 +13,7 @@ def revision():
 @register.simple_tag
 def revision_tag():
     """Returns the git site_revision."""
-    return '{}'.format(site_revision.tag)
+    return '{}'.format(site_revision.tag or site_revision.revision)
 
 
 @register.simple_tag

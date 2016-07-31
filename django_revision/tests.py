@@ -2,17 +2,10 @@ from git import Repo, GitDB
 from git.exc import InvalidGitRepositoryError
 
 from django.conf import settings
-from django.db import models
 from django.test.testcases import TransactionTestCase
-from django_revision import site_revision, Revision, RevisionField
+from django_revision import site_revision, Revision
 
-
-class TestModel(models.Model):
-
-    revision_field = RevisionField()
-
-    class Meta:
-        app_label = 'django_revision'
+from example.models import TestModel
 
 
 class TestRevision(TransactionTestCase):
