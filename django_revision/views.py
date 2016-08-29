@@ -7,6 +7,6 @@ class RevisionMixin:
         context = super(RevisionMixin, self).get_context_data(**kwargs)
         revision = Revision()
         context.update({
-            'revision': revision.tag,
+            'revision': revision.tag or revision.commit,
         })
         return context
