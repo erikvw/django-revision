@@ -8,7 +8,10 @@ class Revision(object):
     def __init__(self, working_dir=None, manual_revision=None, max_length=None):
         self.revision = None
         self.max_length = max_length or 75
-        self.working_dir = working_dir or settings.GIT_DIR
+        try:
+            self.working_dir = working_dir or settings.GIT_DIR
+        except AttributeError:
+            self.working_dir = settings.BASE_DIR
         try:
             self.revision = self.repo_revision or manual_revision or settings.REVISION
         except AttributeError:
