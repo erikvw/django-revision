@@ -54,7 +54,7 @@ Add to settings:
         ...
     ]
 
-If your _git_ working directory is something other than `settings.BASE_DIR` add  GIT_DIR to settingswith the path to your _git_ working directory. For example:
+If your _git_ working directory is something other than `settings.BASE_DIR` add `GIT_DIR` to `settings` with the path to your _git_ working directory. For example:
 
     GIT_DIR = BASE_DIR.ancestor(2)
     
