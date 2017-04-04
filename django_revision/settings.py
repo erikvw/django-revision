@@ -12,10 +12,11 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-from unipath import Path
+
+from pathlib import PurePath
 
 # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BASE_DIR = Path(os.path.dirname(os.path.realpath(__file__)))
+BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
@@ -104,5 +105,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-GIT_DIR = BASE_DIR.ancestor(1)
+GIT_DIR = str(PurePath(BASE_DIR).parent)
 REVISION = '0.1.0'
