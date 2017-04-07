@@ -46,9 +46,17 @@ Get the latest version:
 
     pip install git+https://github.com/erikvw/django-revision@develop#egg=django_revision
 
-Add  GIT_DIR to settings to let `django-revision` know the location of your _git_ working directory, for example:
+Add to settings:
 
-    GIT_DIR = BASE_DIR.ancestor(1)
+    INSTALLED_APPS = [
+        ...
+        'django_revision.apps.AppConfig',
+        ...
+    ]
+
+If your _git_ working directory is something other than `settings.BASE_DIR` add `GIT_DIR` to `settings` with the path to your _git_ working directory. For example:
+
+    GIT_DIR = BASE_DIR.ancestor(2)
     
 If you have a deployment case where the source folder is not a _git_ repo, you can set the revision manually in settings:
 	
