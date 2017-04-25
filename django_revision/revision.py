@@ -33,7 +33,8 @@ class Revision(object):
             except TypeError:
                 self.branch = 'detached'
                 self.commit = str(repo.commit())
-            revision = '{}:{}:{}'.format(self.tag, self.branch, self.commit)[0: self.max_length]
+            revision = '{}:{}:{}'.format(self.tag, self.branch, self.commit)[
+                0: self.max_length]
         except InvalidGitRepositoryError:
             pass
         return revision
@@ -43,5 +44,6 @@ class Revision(object):
 
     def __str__(self):
         return '{0.django_revision!s}'.format(self)
+
 
 site_revision = Revision()
