@@ -8,6 +8,7 @@ from git import Repo, GitDB, GitCommandError, InvalidGitRepositoryError
 class Revision(object):
 
     def __init__(self, working_dir=None, manual_revision=None, max_length=None):
+        self.invalid = False
         self.revision = None
         self.max_length = max_length or 75
         try:
@@ -18,6 +19,7 @@ class Revision(object):
             self.revision = self.repo_revision or manual_revision or settings.REVISION
         except AttributeError:
             self.revision = f'no revision info! Check GIT_DIR={self.working_dir}.'
+            self.invalid = True
 
     @property
     def repo_revision(self):
