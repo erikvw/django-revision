@@ -1,3 +1,5 @@
+from pathlib import PurePath
+
 from django.conf import settings
 
 from git import Repo, GitDB, GitCommandError, InvalidGitRepositoryError
@@ -6,16 +8,18 @@ from git import Repo, GitDB, GitCommandError, InvalidGitRepositoryError
 class Revision(object):
 
     def __init__(self, working_dir=None, manual_revision=None, max_length=None):
+        self.invalid = False
         self.revision = None
         self.max_length = max_length or 75
         try:
             self.working_dir = working_dir or settings.GIT_DIR
         except AttributeError:
-            self.working_dir = settings.BASE_DIR
+            self.working_dir = str(PurePath(settings.BASE_DIR).parent)
         try:
             self.revision = self.repo_revision or manual_revision or settings.REVISION
         except AttributeError:
-            self.revision = 'no revision info!'
+            self.revision = f'no revision info! Check GIT_DIR={self.working_dir}.'
+            self.invalid = True
 
     @property
     def repo_revision(self):
@@ -43,7 +47,7 @@ class Revision(object):
         return '{0}({1.working_dir!r}, {1.manual_revision!r})'.format(self.__class__.__name__, self)
 
     def __str__(self):
-        return '{0.django_revision!s}'.format(self)
+        return f'{self.revision}'
 
 
 site_revision = Revision()
