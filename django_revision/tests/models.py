@@ -6,6 +6,3 @@ from django_revision import RevisionField
 class TestModel(models.Model):
 
     revision_field = RevisionField()
-
-    class Meta:
-        app_label = 'example'
