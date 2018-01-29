@@ -1,17 +1,18 @@
-from git import Repo, GitDB
-from git.exc import InvalidGitRepositoryError
-
 from django.conf import settings
 from django.test.testcases import TransactionTestCase
 from django_revision import site_revision, Revision
+from git import Repo, GitDB
+from git.exc import InvalidGitRepositoryError
 
-from example.models import TestModel
+from .models import TestModel
+from pathlib import Path
 
 
 class TestRevision(TransactionTestCase):
 
     def setUp(self):
-        repo = Repo(settings.BASE_DIR.ancestor(1), odbt=GitDB)
+        path = str(Path(settings.BASE_DIR).parent)
+        repo = Repo(path, odbt=GitDB)
         self.tag = str(repo.git.describe(tags=True))
         try:
             self.branch = str(repo.active_branch)
@@ -19,7 +20,8 @@ class TestRevision(TransactionTestCase):
         except TypeError:
             self.branch = 'detached'
             self.commit = str(repo.commit())
-        self.revision = '{}:{}:{}'.format(self.tag, self.branch, self.commit)[0: 75]
+        self.revision = '{}:{}:{}'.format(
+            self.tag, self.branch, self.commit)[0: 75]
 
     def test_model(self):
         test_model = TestModel()
@@ -29,7 +31,8 @@ class TestRevision(TransactionTestCase):
         self.assertEqual(test_model.revision_field, self.revision)
 
     def test_revision(self):
-        repo = Repo(settings.BASE_DIR.ancestor(1), odbt=GitDB)
+        path = str(Path(settings.BASE_DIR).parent)
+        repo = Repo(path, odbt=GitDB)
         tag = repo.git.describe(tags=True)
         self.assertEquals(tag, site_revision.tag)
 

@@ -1,50 +1,77 @@
+from django.conf import settings
+from git import Repo, GitDB, GitCommandError, InvalidGitRepositoryError
 from pathlib import PurePath
 
-from django.conf import settings
 
-from git import Repo, GitDB, GitCommandError, InvalidGitRepositoryError
+class DummyBranch:
+    commit = ''
+
+    def __str__(self):
+        return self.commit
+
+
+class DummyRepo:
+    def __init__(self, tag=None):
+        self.tag = tag
+        self.branch = None
+        self.active_branch = DummyBranch()
+        self._commit = self.active_branch.commit
+
+    def __str__(self):
+        return self.tag
+
+    def commit(self):
+        return self._commit or ''
 
 
 class Revision(object):
 
     def __init__(self, working_dir=None, manual_revision=None, max_length=None):
+        self._revision = None
+        self._tag = None
+        self.commit = None
+        self.branch = None
         self.invalid = False
-        self.revision = None
         self.max_length = max_length or 75
         try:
             self.working_dir = working_dir or settings.GIT_DIR
         except AttributeError:
             self.working_dir = str(PurePath(settings.BASE_DIR).parent)
         try:
-            self.revision = self.repo_revision or manual_revision or settings.REVISION
-        except AttributeError:
-            self.revision = f'no revision info! Check GIT_DIR={self.working_dir}.'
+            self.repo = Repo(self.working_dir, odbt=GitDB)
+        except InvalidGitRepositoryError:
+            try:
+                self.repo = DummyRepo(tag=settings.REVISION)
+            except AttributeError:
+                self.repo = DummyRepo(tag=manual_revision)
+        try:
+            self.branch = str(self.repo.active_branch)
+            self.commit = str(self.repo.active_branch.commit)
+        except TypeError:
+            self.branch = 'detached'
+            self.commit = str(self.repo.commit())
+
+        opts = ':'.join(
+            [item for item in [self.tag, self.branch, self.commit] if item])
+        self.revision = f'{opts}'[0: self.max_length]
+        if not self.revision:
+            self.repo = DummyRepo(
+                tag=f'no revision info! Check GIT_DIR={self.working_dir}.')
             self.invalid = True
 
     @property
-    def repo_revision(self):
-        """Returns the revision as per the underlying repo or None."""
-        revision = None
-        try:
-            repo = Repo(self.working_dir, odbt=GitDB)
+    def tag(self):
+        if not self._tag:
             try:
-                self.tag = repo.git.describe(tags=True)
+                self._tag = self.repo.git.describe(tags=True)
             except GitCommandError:
-                self.tag = ''
-            try:
-                self.branch = str(repo.active_branch)
-                self.commit = str(repo.active_branch.commit)
-            except TypeError:
-                self.branch = 'detached'
-                self.commit = str(repo.commit())
-            revision = '{}:{}:{}'.format(self.tag, self.branch, self.commit)[
-                0: self.max_length]
-        except InvalidGitRepositoryError:
-            pass
-        return revision
+                self._tag = ''
+            except AttributeError:
+                self._tag = self.repo.tag
+        return self._tag
 
     def __repr__(self):
-        return '{0}({1.working_dir!r}, {1.manual_revision!r})'.format(self.__class__.__name__, self)
+        return f'{self.__class__.__name__}({self.working_dir}, {self.revision})'
 
     def __str__(self):
         return f'{self.revision}'
