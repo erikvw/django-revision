@@ -1,10 +1,32 @@
+.pypirc
+etc/*
+.venv/*
+
+# Swap
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-v][a-z]
+[._]sw[a-p]
+
+# Session
+Session.vim
+
+# Temporary
+.netrwhist
+*~
+# Auto-generated tag files
+tags
+
+.settings
+.project
+.pydevproject
+test-*
+db.sqlite3
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-.project
-.pydevproject
-.settings
-
+_build/
 # C extensions
 *.so
 
