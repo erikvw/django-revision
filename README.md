@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/erikvw/django-revision.svg?branch=master)](https://travis-ci.org/erikvw/django-revision)[![Coverage Status](https://coveralls.io/repos/erikvw/django-revision/badge.svg)](https://coveralls.io/r/erikvw/django-revision)
+[![Build Status](https://travis-ci.org/erikvw/django-revision.svg?branch=develop)](https://travis-ci.org/erikvw/django-revision)
+[![Coverage Status](https://coveralls.io/repos/erikvw/django-revision/badge.svg)](https://coveralls.io/r/erikvw/django-revision)
 
 # django-revision
 
