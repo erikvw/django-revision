@@ -1,12 +1,16 @@
-[![Build Status](https://travis-ci.org/erikvw/django-revision.svg?branch=master)](https://travis-ci.org/erikvw/django-revision)[![Coverage Status](https://coveralls.io/repos/erikvw/django-revision/badge.svg)](https://coveralls.io/r/erikvw/django-revision)
+|pypi| |travis| |coverage|
 
-# django-revision
+
+django-revision
+---------------
 
 Add a Django field class to your models to track the git revision with every model instance saved.
 
-Uses `GitPython` (does not work on python version 3.2.)
+python 3.6, Django 2.0+. Uses `GitPython`.
 
 For example:
+
+.. code-block:: python
 
     from django.db import models
     
@@ -16,7 +20,7 @@ For example:
 
         revision = RevisionField()
 
-... then
+.. code-block:: python
 
     >>> test_model = TestModel.objects.create()
     >>>test_model.revision
@@ -24,11 +28,15 @@ For example:
 
 If the source is modified after the git tag was applied:
 
+.. code-block:: python
+
     >>> test_model = TestModel.objects.create()
     >>>test_model.revision
     >>> '0.1dev0-35-ge9f632e:develop:e9f632e92143c53411290b576487f48c15156603'
 
 Reference git information from anywhere in your app:
+
+.. code-block:: python
 
     >>> from django_revision import site_revision
     >>> site_revision.tag
@@ -40,13 +48,12 @@ Reference git information from anywhere in your app:
 For research trial data, we need to track the source code revision at time of data collection. We deploy our source as a git branch and django-revision picks up the tag:branch:commit and updates
 each saved model instance as data is collected.
 
-### Installation
-
-Get the latest version:
-
-    pip install git+https://github.com/erikvw/django-revision@develop#egg=django_revision
+Installation
+------------
 
 Add to settings:
+
+.. code-block:: python
 
     INSTALLED_APPS = [
         ...
@@ -54,16 +61,24 @@ Add to settings:
         ...
     ]
 
-If your _git_ working directory is something other than `settings.BASE_DIR` add `GIT_DIR` to `settings` with the path to your _git_ working directory. For example:
+If your `git` working directory is something other than ``settings.BASE_DIR`` add ``GIT_DIR`` to ``settings`` with the path to your `git` working directory. For example:
+
+.. code-block:: python
 
     GIT_DIR = BASE_DIR.ancestor(2)
     
-If you have a deployment case where the source folder is not a _git_ repo, you can set the revision manually in settings:
+If you have a deployment case where the source folder is not a `git` repo, you can set the revision manually in settings:
 	
+.. code-block:: python
+
     REVISION = '0.1.3'
 
-### Using in a View and Template
-In the view's `get_context_data` set a context attribute to `revision.tag` or just use the `RevisionMixin`:
+Using in a View and Template
+----------------------------
+
+In the view's ``get_context_data`` set a context attribute to ``revision.tag`` or just use the ``RevisionMixin``:
+
+.. code-block:: python
 
     from django_revision.views import RevisionMixin
 
@@ -71,6 +86,8 @@ In the view's `get_context_data` set a context attribute to `revision.tag` or ju
         ...
 
 In your template:
+
+.. code-block:: python
 
     {% block footer %} 
 	<footer class="footer">
@@ -82,3 +99,11 @@ In your template:
 	</footer>
     {% endblock footer %}
 
+.. |pypi| image:: https://img.shields.io/pypi/v/django-revision.svg
+    :target: https://pypi.python.org/pypi/django-revision
+    
+.. |travis| image:: https://travis-ci.org/clinicedc/django-revision.svg?branch=develop
+    :target: https://travis-ci.org/clinicedc/django-revision
+    
+.. |coverage| image:: https://coveralls.io/repos/github/clinicedc/django-revision/badge.svg?branch=develop
+    :target: https://coveralls.io/github/clinicedc/django-revision?branch=develop

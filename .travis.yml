@@ -1,26 +1,23 @@
 language: python
 python:
-  - "2.7"
-#  - "3.2"
-  - "3.3"
-  - "3.4"
-#  - "nightly"
-env:
-  - DJANGO_VERSION=1.6
-  - DJANGO_VERSION=1.7
-  - DJANGO_VERSION=1.8
-
+- 3.6
+services:
+- mysql
+branches:
+  only:
+  - develop
 install:
-  - pip install -q Django==$DJANGO_VERSION --use-mirrors
-  - pip install flake8 --use-mirrors
-  - pip install coveralls --use-mirrors
-  - pip install -q -r requirements.txt --use-mirrors
-
+- pip install --upgrade pip
+- pip install -r requirements.txt
+- pip install flake8
+- pip install coveralls
 before_script:
-  - flake8 django_revision
-
-script: 
-  - coverage run --source=django_revision manage.py test
-
+- flake8 django_revision
+- mysql -e 'create database edc character set utf8;'
+script:
+- coverage run --source=django_revision manage.py test
 after_success:
-  - coveralls
+- coveralls
+notifications:
+  slack:
+    secure: TrzrTrCafFN7dqD/jjS0qLsLrkkwprOquFStWvHbPQ/sX44HODyDH7A8duu5f84WnPVYV0d+nHNDjJ6/6pBIyKDmwEt0bZblZSb4vQ9q1D60Qocs3gMPLQU8g2U5SZLfk5jWCKWN1JPLkP5ElKazUdNMOv4E0o58m1DmdO8WFGK1aO7geTL6rjf1qLdXdbj5q4gvRjMKZ8tv5HxARMYg1heqeTHO1t9CxXJWfGrSn4NaHNUcnWW6hCaBtZzeKtFPbUzpv2sDxpw7hEx3gNyGD5+HdmfrJpR9WtbIHfQKN/P/dbLq4cXS6zX+iE23BDjGSmeGpJrzCt/FHaKwwaFr5Aa0Jlms1ciijd/bLPCjey1lHIkYsmp298j2ow1P4JvTj9wlKJb25vyUFlHgYlQZRuUZRfFa9jPxVzslbfIVi1cgHRbW2psBHp0rHrZPKdiYW2HpGwNlgtkLaVtR7x6xJvHDG0wjmMQSnyP1IcRWMtMv63RqEC28YQGGknl7Uy+iyxxixnUauK+Z/mtAY7LrInvj66LV3oKdPFsPuIX8cjttJEyALwZn0GoS837kgJ48neoJyQcRudLDIgSa7Bh4WNoB4mWB9ZFz+cqPXV8JDnE84gHSqcdz8Dp6WCPTLxtTKp8nhS3I1/Omu7r5RgdhIqRzmE1R/VkuH4CLWzsLCaA=
