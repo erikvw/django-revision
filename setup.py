@@ -21,7 +21,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     url='http://github/erikvw/django-revision',
-    license='GPL licence, see LICENCE',
+    license='GPL license, see LICENSE',
     description='Track the git revision with every model instance saved.',
     long_description=README,
     zip_safe=False,
