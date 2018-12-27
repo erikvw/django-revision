@@ -15,19 +15,15 @@ class DummyRepo:
         self.tag = tag
         self.branch = None
         self.active_branch = DummyBranch()
-        self._commit = self.active_branch.commit
+        self.commit = self.active_branch.commit or ''
 
     def __str__(self):
         return self.tag
 
-    def commit(self):
-        return self._commit or ''
 
-
-class Revision(object):
+class Revision:
 
     def __init__(self, working_dir=None, manual_revision=None, max_length=None):
-        self._revision = None
         self._tag = None
         self.commit = None
         self.branch = None
@@ -59,6 +55,12 @@ class Revision(object):
                 tag=f'no revision info! Check GIT_DIR={self.working_dir}.')
             self.invalid = True
 
+    def __repr__(self):
+        return f'{self.__class__.__name__}({self.working_dir}, {self.revision})'
+
+    def __str__(self):
+        return f'{self.revision}'
+
     @property
     def tag(self):
         if not self._tag:
@@ -69,12 +71,6 @@ class Revision(object):
             except AttributeError:
                 self._tag = self.repo.tag
         return self._tag
-
-    def __repr__(self):
-        return f'{self.__class__.__name__}({self.working_dir}, {self.revision})'
-
-    def __str__(self):
-        return f'{self.revision}'
 
 
 site_revision = Revision()

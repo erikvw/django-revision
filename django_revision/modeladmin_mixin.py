@@ -16,11 +16,11 @@ class ModelAdminRevisionMixin:
     def add_view(self, request, form_url='', extra_context=None):
         extra_context = extra_context or {}
         extra_context.update({'revision': site_revision.revision})
-        return super(ModelAdminRevisionMixin, self).add_view(
+        return super().add_view(
             request, form_url=form_url, extra_context=extra_context)
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
         extra_context = extra_context or {}
         extra_context.update({'revision': site_revision.revision})
-        return super(ModelAdminRevisionMixin, self).change_view(
+        return super().change_view(
             request, object_id, form_url=form_url, extra_context=extra_context)
