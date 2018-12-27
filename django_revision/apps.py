@@ -8,13 +8,19 @@ from .revision import Revision
 style = color_style()
 
 
+def check_revision(working_dir=None):
+    revision = Revision(working_dir=working_dir)
+    if revision.invalid:
+        msg = 'Revision invalid: Got "' + revision.repo.tag + '"\n'
+        sys.stdout.write(style.ERROR(msg))
+    else:
+        msg = 'Revision: ' + revision.revision + '\n'
+        sys.stdout.write(msg)
+    return msg
+
+
 class AppConfig(DjangoAppConfig):
     name = 'django_revision'
 
     def ready(self):
-        revision = Revision()
-        if revision.invalid:
-            sys.stdout.write(style.ERROR(
-                'Revision invalid: Got "' + revision.revision + '"\n'))
-        else:
-            sys.stdout.write('Revision: ' + revision.revision + '\n')
+        check_revision()

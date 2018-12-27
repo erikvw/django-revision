@@ -1,11 +1,15 @@
 from django.conf import settings
 from django.test.testcases import TransactionTestCase
+from django.test.utils import override_settings
 from django_revision import site_revision, Revision
 from git import Repo, GitDB
 from git.exc import InvalidGitRepositoryError
-
-from .models import TestModel
 from pathlib import Path
+from tempfile import mkdtemp
+
+from ..apps import check_revision
+from ..views import RevisionMixin
+from .models import TestModel
 
 
 class TestRevision(TransactionTestCase):
@@ -20,8 +24,23 @@ class TestRevision(TransactionTestCase):
         except TypeError:
             self.branch = 'detached'
             self.commit = str(repo.commit())
-        self.revision = '{}:{}:{}'.format(
-            self.tag, self.branch, self.commit)[0: 75]
+        self.revision = f'{self.tag}:{self.branch}:{self.commit}'[0: 75]
+
+    @override_settings(REVISION=None)
+    def test_no_git(self):
+        path = mkdtemp()
+        self.assertTrue(
+            check_revision(working_dir=path).startswith('Revision invalid'))
+
+    @override_settings(REVISION='1.1.1')
+    def test_defaults_to_settings(self):
+        path = mkdtemp()
+        self.assertTrue(
+            check_revision(working_dir=path).startswith('Revision: 1.1.1'))
+
+    def test_revision_mixin(self):
+        mixin = RevisionMixin()
+        self.assertIn('revision', mixin.get_context_data())
 
     def test_model(self):
         test_model = TestModel()
@@ -54,11 +73,15 @@ class TestRevision(TransactionTestCase):
         self.assertEqual(Revision(working_dir=DIR).revision, settings.REVISION)
 
     def test_manual_revision1(self):
-        """Assert the django_revision does not set manually if repo can be found ."""
+        """Assert the django_revision does not set manually
+        if repo can be found .
+        """
         revision = Revision(manual_revision='0.1.0')
         self.assertNotEqual('0.1.0', revision.revision)
 
     def test_manual_revision2(self):
-        """Assert the django_revision can be set manually and a working_dir is ignored."""
+        """Assert the django_revision can be set manually
+        and a working_dir is ignored.
+        """
         revision = Revision(manual_revision='0.1.0', working_dir='/tmp')
         self.assertEqual(revision.revision, '0.1.0')
