@@ -14,13 +14,13 @@ def check_revision(working_dir=None):
         msg = 'Revision invalid: Got "' + revision.repo.tag + '"\n'
         sys.stdout.write(style.ERROR(msg))
     else:
-        msg = 'Revision: ' + revision.revision + '\n'
+        msg = "Revision: " + revision.revision + "\n"
         sys.stdout.write(msg)
     return msg
 
 
 class AppConfig(DjangoAppConfig):
-    name = 'django_revision'
+    name = "django_revision"
 
     def ready(self):
         check_revision()

@@ -1,6 +1,4 @@
 [run]
-omit =
-    */wsgi.py
-    setup.py
-    manage.py
-    */migrations/*
+include = django_revision/*
+omit = django_revision/tests/*
+branch = 1

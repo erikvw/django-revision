@@ -1,5 +1,4 @@
-|pypi| |travis| |coverage|
-
+|pypi| |travis| |codecov| |downloads|
 
 django-revision
 ---------------
@@ -102,8 +101,11 @@ In your template:
 .. |pypi| image:: https://img.shields.io/pypi/v/django-revision.svg
     :target: https://pypi.python.org/pypi/django-revision
     
-.. |travis| image:: https://travis-ci.org/clinicedc/django-revision.svg?branch=develop
-    :target: https://travis-ci.org/clinicedc/django-revision
+.. |travis| image:: https://travis-ci.org/erikvw/django-revision.svg?branch=develop
+    :target: https://travis-ci.org/erikvw/django-revision
     
-.. |coverage| image:: https://coveralls.io/repos/github/clinicedc/django-revision/badge.svg?branch=develop
-    :target: https://coveralls.io/github/clinicedc/django-revision?branch=develop
+.. |codecov| image:: https://codecov.io/gh/erikvw/django-revision/branch/develop/graph/badge.svg
+  :target: https://codecov.io/gh/erikvw/django-revision
+
+.. |downloads| image:: https://pepy.tech/badge/django-revision
+   :target: https://pepy.tech/project/django-revision

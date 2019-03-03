@@ -1,11 +1,11 @@
 from django.conf import settings
-from django.test.testcases import TransactionTestCase
+from django.test import TransactionTestCase, tag  # noqa
 from django.test.utils import override_settings
 from django_revision import site_revision, Revision
 from git import Repo, GitDB
 from git.exc import InvalidGitRepositoryError
-from pathlib import Path
 from tempfile import mkdtemp
+from unittest.case import skip
 
 from ..apps import check_revision
 from ..views import RevisionMixin
@@ -13,44 +13,43 @@ from .models import TestModel
 
 
 class TestRevision(TransactionTestCase):
-
     def setUp(self):
-        path = str(Path(settings.BASE_DIR).parent)
+        path = settings.BASE_DIR
         repo = Repo(path, odbt=GitDB)
         self.tag = str(repo.git.describe(tags=True))
         try:
             self.branch = str(repo.active_branch)
             self.commit = str(repo.active_branch.commit)
         except TypeError:
-            self.branch = 'detached'
+            self.branch = "detached"
             self.commit = str(repo.commit())
-        self.revision = f'{self.tag}:{self.branch}:{self.commit}'[0: 75]
+        self.revision = f"{self.tag}:{self.branch}:{self.commit}"[0:75]
 
     @override_settings(REVISION=None)
     def test_no_git(self):
         path = mkdtemp()
-        self.assertTrue(
-            check_revision(working_dir=path).startswith('Revision invalid'))
+        self.assertTrue(check_revision(
+            working_dir=path).startswith("Revision invalid"))
 
-    @override_settings(REVISION='1.1.1')
+    @override_settings(REVISION="1.1.1")
     def test_defaults_to_settings(self):
         path = mkdtemp()
-        self.assertTrue(
-            check_revision(working_dir=path).startswith('Revision: 1.1.1'))
+        self.assertTrue(check_revision(
+            working_dir=path).startswith("Revision: 1.1.1"))
 
     def test_revision_mixin(self):
         mixin = RevisionMixin()
-        self.assertIn('revision', mixin.get_context_data())
+        self.assertIn("revision", mixin.get_context_data())
 
     def test_model(self):
         test_model = TestModel()
         test_model.save()
-        self.assertEqual(test_model.revision_field, self.revision)
+        self.assertEqual(test_model.revision, self.revision)
         test_model = TestModel.objects.create()
-        self.assertEqual(test_model.revision_field, self.revision)
+        self.assertEqual(test_model.revision, self.revision)
 
     def test_revision(self):
-        path = str(Path(settings.BASE_DIR).parent)
+        path = settings.BASE_DIR
         repo = Repo(path, odbt=GitDB)
         tag = repo.git.describe(tags=True)
         self.assertEquals(tag, site_revision.tag)
@@ -67,21 +66,24 @@ class TestRevision(TransactionTestCase):
         revision = Revision()
         self.assertEqual(revision.commit, self.commit)
 
+    @override_settings(REVISION="0.0.0")
     def test_working_dir(self):
-        DIR = '/tmp'
+        DIR = "/tmp"
         self.assertRaises(InvalidGitRepositoryError, Repo, DIR, odbt=GitDB)
         self.assertEqual(Revision(working_dir=DIR).revision, settings.REVISION)
 
+    @skip('mock')
+    @override_settings(REVISION="0.0.0")
     def test_manual_revision1(self):
         """Assert the django_revision does not set manually
         if repo can be found .
         """
-        revision = Revision(manual_revision='0.1.0')
-        self.assertNotEqual('0.1.0', revision.revision)
+        revision = Revision(manual_revision="0.0.0")
+        self.assertNotEqual("0.0.0", revision.revision)
 
     def test_manual_revision2(self):
         """Assert the django_revision can be set manually
         and a working_dir is ignored.
         """
-        revision = Revision(manual_revision='0.1.0', working_dir='/tmp')
-        self.assertEqual(revision.revision, '0.1.0')
+        revision = Revision(manual_revision="0.1.0", working_dir="/tmp")
+        self.assertEqual(revision.revision, "0.1.0")

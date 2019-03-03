@@ -10,11 +10,11 @@ class RevisionField(CharField):
     description = "RevisionField"
 
     def __init__(self, *args, **kwargs):
-        kwargs.setdefault('editable', False)
-        kwargs.setdefault('blank', True)
-        kwargs.setdefault('null', True)
-        kwargs.setdefault('max_length', 75)
-        kwargs.setdefault('verbose_name', 'Revision')
+        kwargs.setdefault("editable", False)
+        kwargs.setdefault("blank", True)
+        kwargs.setdefault("null", True)
+        kwargs.setdefault("max_length", 75)
+        kwargs.setdefault("verbose_name", "Revision")
         super(RevisionField, self).__init__(*args, **kwargs)
 
     def pre_save(self, model, add):
