@@ -13,14 +13,14 @@ class ModelAdminRevisionMixin:
         {% endblock %}
     """
 
-    def add_view(self, request, form_url='', extra_context=None):
+    def add_view(self, request, form_url="", extra_context=None):
         extra_context = extra_context or {}
-        extra_context.update({'revision': site_revision.revision})
-        return super().add_view(
-            request, form_url=form_url, extra_context=extra_context)
+        extra_context.update({"revision": site_revision.revision})
+        return super().add_view(request, form_url=form_url, extra_context=extra_context)
 
-    def change_view(self, request, object_id, form_url='', extra_context=None):
+    def change_view(self, request, object_id, form_url="", extra_context=None):
         extra_context = extra_context or {}
-        extra_context.update({'revision': site_revision.revision})
+        extra_context.update({"revision": site_revision.revision})
         return super().change_view(
-            request, object_id, form_url=form_url, extra_context=extra_context)
+            request, object_id, form_url=form_url, extra_context=extra_context
+        )

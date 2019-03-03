@@ -32,9 +32,9 @@ installed_apps = [
 
 DEFAULT_SETTINGS = dict(
     BASE_DIR=os.path.dirname(os.path.realpath(__file__)),
+    GIT_DIR=os.path.dirname(os.path.realpath(__file__)),
     ALLOWED_HOSTS=['localhost'],
     DEBUG=True,
-    # AUTH_USER_MODEL='custom_user.CustomUser',
     ROOT_URLCONF=f'{app_name}.tests.urls',
     STATIC_URL='/static/',
     INSTALLED_APPS=installed_apps,

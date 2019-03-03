@@ -4,7 +4,7 @@ from pathlib import PurePath
 
 
 class DummyBranch:
-    commit = ''
+    commit = ""
 
     def __str__(self):
         return self.commit
@@ -15,14 +15,13 @@ class DummyRepo:
         self.tag = tag
         self.branch = None
         self.active_branch = DummyBranch()
-        self.commit = self.active_branch.commit or ''
+        self.commit = self.active_branch.commit or ""
 
     def __str__(self):
         return self.tag
 
 
 class Revision:
-
     def __init__(self, working_dir=None, manual_revision=None, max_length=None):
         self._tag = None
         self.commit = None
@@ -44,22 +43,22 @@ class Revision:
             self.branch = str(self.repo.active_branch)
             self.commit = str(self.repo.active_branch.commit)
         except TypeError:
-            self.branch = 'detached'
+            self.branch = "detached"
             self.commit = str(self.repo.commit())
 
-        opts = ':'.join(
-            [item for item in [self.tag, self.branch, self.commit] if item])
-        self.revision = f'{opts}'[0: self.max_length]
+        opts = ":".join([item for item in [self.tag, self.branch, self.commit] if item])
+        self.revision = f"{opts}"[0 : self.max_length]
         if not self.revision:
             self.repo = DummyRepo(
-                tag=f'no revision info! Check GIT_DIR={self.working_dir}.')
+                tag=f"no revision info! Check GIT_DIR={self.working_dir}."
+            )
             self.invalid = True
 
     def __repr__(self):
-        return f'{self.__class__.__name__}({self.working_dir}, {self.revision})'
+        return f"{self.__class__.__name__}({self.working_dir}, {self.revision})"
 
     def __str__(self):
-        return f'{self.revision}'
+        return f"{self.revision}"
 
     @property
     def tag(self):
@@ -67,7 +66,7 @@ class Revision:
             try:
                 self._tag = self.repo.git.describe(tags=True)
             except GitCommandError:
-                self._tag = ''
+                self._tag = ""
             except AttributeError:
                 self._tag = self.repo.tag
         return self._tag

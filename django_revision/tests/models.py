@@ -1,8 +1,8 @@
 from django.db import models
 
-from django_revision import RevisionField
+from ..model_mixins import RevisionModelMixin
 
 
-class TestModel(models.Model):
+class TestModel(RevisionModelMixin, models.Model):
 
-    revision_field = RevisionField()
+    pass
