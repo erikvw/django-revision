@@ -1,4 +1,6 @@
-include AUTHORS CHANGES README.rst LICENSE VERSION
-recursive-include docs *
-recursive-exclude edc_example/*
-recursive-exclude etc/*
+include AUTHORS CHANGES LICENSE VERSION
+include MANIFEST.in
+include *.rst
+include *.txt
+recursive-include django_revision/templates *
+recursive-include django_revision/static *
