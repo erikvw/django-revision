@@ -101,8 +101,8 @@ In your template:
 .. |pypi| image:: https://img.shields.io/pypi/v/django-revision.svg
     :target: https://pypi.python.org/pypi/django-revision
     
-.. |travis| image:: https://travis-ci.org/erikvw/django-revision.svg?branch=develop
-    :target: https://travis-ci.org/erikvw/django-revision
+.. |travis| image:: https://travis-ci.com/erikvw/django-revision.svg?branch=develop
+    :target: https://travis-ci.com/erikvw/django-revision
     
 .. |codecov| image:: https://codecov.io/gh/erikvw/django-revision/branch/develop/graph/badge.svg
   :target: https://codecov.io/gh/erikvw/django-revision
