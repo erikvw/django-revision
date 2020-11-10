@@ -30,7 +30,7 @@ setup(
     author_email='ew2789@gmail.com',
     packages=find_packages(),
     include_package_data=True,
-    url='http://github/erikvw/django-revision',
+    url='https://github.com/erikvw/django-revision',
     license='GPL license, see LICENSE',
     description='Track the git revision with every model instance saved.',
     long_description=README,
