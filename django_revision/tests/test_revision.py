@@ -4,11 +4,11 @@ from unittest.case import skip
 from django.conf import settings
 from django.test import TransactionTestCase, tag  # noqa
 from django.test.utils import override_settings
-from django_revision import Revision, site_revision
 from git import GitDB, Repo
 from git.exc import InvalidGitRepositoryError
 
 from ..apps import check_revision
+from ..revision import Revision, site_revision
 from ..views import RevisionMixin
 from .models import TestModel
 
@@ -50,8 +50,8 @@ class TestRevision(TransactionTestCase):
     def test_revision(self):
         path = settings.BASE_DIR
         repo = Repo(path, odbt=GitDB)
-        tag = repo.git.describe(tags=True)
-        self.assertEquals(tag, site_revision.tag)
+        revision_tag = repo.git.describe(tags=True)
+        self.assertEquals(revision_tag, site_revision.tag)
 
     def test_revision_branch(self):
         revision = Revision()
@@ -67,9 +67,9 @@ class TestRevision(TransactionTestCase):
 
     @override_settings(REVISION="0.0.0")
     def test_working_dir(self):
-        DIR = "/tmp"
-        self.assertRaises(InvalidGitRepositoryError, Repo, DIR, odbt=GitDB)
-        self.assertEqual(Revision(working_dir=DIR).revision, settings.REVISION)
+        folder = "/tmp"
+        self.assertRaises(InvalidGitRepositoryError, Repo, folder, odbt=GitDB)
+        self.assertEqual(Revision(working_dir=folder).revision, settings.REVISION)
 
     @skip("mock")
     @override_settings(REVISION="0.0.0")

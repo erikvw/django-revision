@@ -1,5 +1,6 @@
 from django import template
-from django_revision import site_revision
+
+from ..revision import site_revision
 
 register = template.Library()
 
