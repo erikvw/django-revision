@@ -1,6 +1,7 @@
-from django.conf import settings
-from git import Repo, GitDB, GitCommandError, InvalidGitRepositoryError
 from pathlib import PurePath
+
+from django.conf import settings
+from git import GitCommandError, GitDB, InvalidGitRepositoryError, Repo
 
 
 class DummyBranch:
@@ -22,12 +23,18 @@ class DummyRepo:
 
 
 class Revision:
-    def __init__(self, working_dir=None, manual_revision=None, max_length=None):
+    def __init__(
+        self,
+        working_dir=None,
+        manual_revision=None,
+        max_length=None,
+    ):
         self._tag = None
-        self.commit = None
         self.branch = None
+        self.commit = None
         self.invalid = False
         self.max_length = max_length or 75
+
         try:
             self.working_dir = working_dir or settings.GIT_DIR
         except AttributeError:
@@ -66,7 +73,7 @@ class Revision:
             try:
                 self._tag = self.repo.git.describe(tags=True)
             except GitCommandError:
-                self._tag = ""
+                self._tag = str(self.repo.head.reference.commit)
             except AttributeError:
                 self._tag = self.repo.tag
         return self._tag
