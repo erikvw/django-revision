@@ -4,7 +4,7 @@ from unittest.case import skip
 from django.conf import settings
 from django.test import TransactionTestCase, tag  # noqa
 from django.test.utils import override_settings
-from git import GitCommandError, GitDB, Repo
+from git import GitDB, Repo
 from git.exc import InvalidGitRepositoryError
 
 from ..apps import check_revision
@@ -17,10 +17,7 @@ class TestRevision(TransactionTestCase):
     def setUp(self):
         path = settings.BASE_DIR
         repo = Repo(path, odbt=GitDB)
-        try:
-            self.tag = str(repo.git.describe(tags=True))
-        except GitCommandError:
-            print(path)
+        self.tag = str(repo.git.describe(tags=True))
         try:
             self.branch = str(repo.active_branch)
             self.commit = str(repo.active_branch.commit)
