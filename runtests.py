@@ -50,6 +50,7 @@ DEFAULT_SETTINGS = dict(
                 "context_processors": [
                     "django.contrib.auth.context_processors.auth",
                     "django.contrib.messages.context_processors.messages",
+                    "django.template.context_processors.request",
                 ]
             },
         }
