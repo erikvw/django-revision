@@ -1,4 +1,4 @@
-|pypi| |travis| |codecov| |downloads|
+|pypi| |actions| |codecov| |downloads|
 
 django-revision
 ---------------
@@ -101,8 +101,8 @@ In your template:
 .. |pypi| image:: https://img.shields.io/pypi/v/django-revision.svg
     :target: https://pypi.python.org/pypi/django-revision
     
-.. |travis| image:: https://travis-ci.com/erikvw/django-revision.svg?branch=develop
-    :target: https://travis-ci.com/erikvw/django-revision
+.. |actions| image:: https://github.com/erikvw/django-revision/workflows/build/badge.svg?branch=develop
+  :target: https://github.com/erikvw/django-revision/actions?query=workflow:build
     
 .. |codecov| image:: https://codecov.io/gh/erikvw/django-revision/branch/develop/graph/badge.svg
   :target: https://codecov.io/gh/erikvw/django-revision
