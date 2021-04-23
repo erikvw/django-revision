@@ -4,13 +4,13 @@ from unittest.case import skip
 from django.conf import settings
 from django.test import TransactionTestCase, tag  # noqa
 from django.test.utils import override_settings
+from django_revision.apps import check_revision
+from django_revision.revision import Revision, site_revision
+from django_revision.views import RevisionMixin
 from git import GitDB, Repo
 from git.exc import InvalidGitRepositoryError
 
-from ..apps import check_revision
-from ..revision import Revision, site_revision
-from ..views import RevisionMixin
-from .models import TestModel
+from ..models import TestModel
 
 
 class TestRevision(TransactionTestCase):

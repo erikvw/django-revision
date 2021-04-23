@@ -5,7 +5,7 @@ django-revision
 
 Add a Django field class to your models to track the git revision with every model instance saved.
 
-python 3.6, Django 2.0+. Uses `GitPython`.
+python 3.7, Django 3.0+. Uses `GitPython`.
 
 For example:
 
