@@ -1,15 +1,16 @@
-from django.conf import settings
-from django.test import TransactionTestCase, tag  # noqa
-from django.test.utils import override_settings
-from django_revision import site_revision, Revision
-from git import Repo, GitDB
-from git.exc import InvalidGitRepositoryError
 from tempfile import mkdtemp
 from unittest.case import skip
 
-from ..apps import check_revision
-from ..views import RevisionMixin
-from .models import TestModel
+from django.conf import settings
+from django.test import TransactionTestCase, tag  # noqa
+from django.test.utils import override_settings
+from django_revision.apps import check_revision
+from django_revision.revision import Revision, site_revision
+from django_revision.views import RevisionMixin
+from git import GitDB, Repo
+from git.exc import InvalidGitRepositoryError
+
+from ..models import TestModel
 
 
 class TestRevision(TransactionTestCase):
@@ -28,14 +29,12 @@ class TestRevision(TransactionTestCase):
     @override_settings(REVISION=None)
     def test_no_git(self):
         path = mkdtemp()
-        self.assertTrue(check_revision(
-            working_dir=path).startswith("Revision invalid"))
+        self.assertTrue(check_revision(working_dir=path).startswith("Revision invalid"))
 
     @override_settings(REVISION="1.1.1")
     def test_defaults_to_settings(self):
         path = mkdtemp()
-        self.assertTrue(check_revision(
-            working_dir=path).startswith("Revision: 1.1.1"))
+        self.assertTrue(check_revision(working_dir=path).startswith("Revision: 1.1.1"))
 
     def test_revision_mixin(self):
         mixin = RevisionMixin()
@@ -51,8 +50,8 @@ class TestRevision(TransactionTestCase):
     def test_revision(self):
         path = settings.BASE_DIR
         repo = Repo(path, odbt=GitDB)
-        tag = repo.git.describe(tags=True)
-        self.assertEquals(tag, site_revision.tag)
+        revision_tag = repo.git.describe(tags=True)
+        self.assertEquals(revision_tag, site_revision.tag)
 
     def test_revision_branch(self):
         revision = Revision()
@@ -68,11 +67,11 @@ class TestRevision(TransactionTestCase):
 
     @override_settings(REVISION="0.0.0")
     def test_working_dir(self):
-        DIR = "/tmp"
-        self.assertRaises(InvalidGitRepositoryError, Repo, DIR, odbt=GitDB)
-        self.assertEqual(Revision(working_dir=DIR).revision, settings.REVISION)
+        folder = "/tmp"
+        self.assertRaises(InvalidGitRepositoryError, Repo, folder, odbt=GitDB)
+        self.assertEqual(Revision(working_dir=folder).revision, settings.REVISION)
 
-    @skip('mock')
+    @skip("mock")
     @override_settings(REVISION="0.0.0")
     def test_manual_revision1(self):
         """Assert the django_revision does not set manually

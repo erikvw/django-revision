@@ -4,8 +4,7 @@ from .revision import site_revision
 
 
 class RevisionField(CharField):
-    """Updates the value to the current git branch and commit.
-    """
+    """Updates the value to the current git branch and commit."""
 
     description = "RevisionField"
 
