@@ -4,10 +4,11 @@ from unittest.case import skip
 from django.conf import settings
 from django.test import TransactionTestCase
 from django.test.utils import override_settings
-from django_revision import Revision, check_revision, site_revision
-from django_revision.views import RevisionMixin
 from git import GitCmdObjectDB, Repo
 from git.exc import InvalidGitRepositoryError
+
+from django_revision import Revision, check_revision, site_revision
+from django_revision.views import RevisionMixin
 
 from ..models import TestModel
 
