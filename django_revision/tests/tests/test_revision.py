@@ -80,6 +80,7 @@ class TestRevision(TransactionTestCase):
         revision = Revision(manual_revision="0.0.0")
         self.assertNotEqual("0.0.0", revision.revision)
 
+    @override_settings(REVISION=None)
     def test_manual_revision2(self):
         """Assert the django_revision can be set manually
         and a working_dir is ignored.

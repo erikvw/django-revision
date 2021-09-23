@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 import logging
+import os
+import pdb
 import sys
 from os.path import abspath, dirname
 
@@ -10,6 +12,8 @@ from edc_test_utils import DefaultTestSettings
 
 app_name = "django_revision"
 base_dir = dirname(abspath(__file__))
+with open(os.path.join(base_dir, "VERSION")) as f:
+    REVISION = f.read().strip()
 
 DEFAULT_SETTINGS = DefaultTestSettings(
     APP_NAME=app_name,
@@ -17,6 +21,7 @@ DEFAULT_SETTINGS = DefaultTestSettings(
     ALLOWED_HOSTS=["localhost"],
     ROOT_URLCONF=f"{app_name}.tests.urls",
     STATIC_URL="/static/",
+    REVISION=REVISION,
     INSTALLED_APPS=[
         "django.contrib.admin",
         "django.contrib.auth",

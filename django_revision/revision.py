@@ -1,9 +1,8 @@
 from pathlib import PurePath
 
 from django.conf import settings
+from django_revision.constants import NO_TAG
 from git import GitCmdObjectDB, GitCommandError, InvalidGitRepositoryError, Repo
-
-from .constants import NO_TAG
 
 
 class DummyBranch:
@@ -22,7 +21,7 @@ def get_best_tag(repo):
         try:
             tag = repo.tag
         except AttributeError:
-            tag = NO_TAG
+            tag = settings.REVISION
     return tag
 
 
@@ -57,10 +56,8 @@ class Revision:
         try:
             self.repo = Repo(self.working_dir, odbt=GitCmdObjectDB)
         except InvalidGitRepositoryError:
-            try:
-                self.repo = DummyRepo(tag=settings.REVISION)
-            except AttributeError:
-                self.repo = DummyRepo(tag=manual_revision)
+            tag = manual_revision or getattr(settings, "REVISION", NO_TAG)
+            self.repo = DummyRepo(tag=tag)
         try:
             self.branch = str(self.repo.active_branch)
             self.commit = str(self.repo.active_branch.commit)
