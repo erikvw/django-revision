@@ -5,11 +5,10 @@ from django.conf import settings
 from django.test import TransactionTestCase
 from django.test.utils import override_settings
 from django_revision import Revision, check_revision, site_revision
-from django_revision.constants import NO_TAG
 from django_revision.revision import get_best_tag
 from django_revision.views import RevisionMixin
 from git import GitCmdObjectDB, Repo
-from git.exc import GitCommandError, InvalidGitRepositoryError
+from git.exc import InvalidGitRepositoryError
 
 from ..models import TestModel
 
@@ -18,7 +17,7 @@ class TestRevision(TransactionTestCase):
     def setUp(self):
         path = settings.BASE_DIR
         repo = Repo(path, odbt=GitCmdObjectDB)
-        self.tag =get_best_tag(repo)
+        self.tag = get_best_tag(repo)
         try:
             self.branch = str(repo.active_branch)
             self.commit = str(repo.active_branch.commit)
@@ -51,7 +50,7 @@ class TestRevision(TransactionTestCase):
     def test_revision(self):
         path = settings.BASE_DIR
         repo = Repo(path, odbt=GitCmdObjectDB)
-        revision_tag = repo.git.describe(tags=True)
+        revision_tag = get_best_tag(repo)
         self.assertEquals(revision_tag, site_revision.tag)
 
     def test_revision_branch(self):
