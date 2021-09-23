@@ -1,11 +1,11 @@
-|pypi| |travis| |codecov| |downloads|
+|pypi| |actions| |codecov| |downloads|
 
 django-revision
 ---------------
 
 Add a Django field class to your models to track the git revision with every model instance saved.
 
-python 3.6, Django 2.0+. Uses `GitPython`.
+python 3.7, Django 3.0+. Uses `GitPython`.
 
 For example:
 
@@ -101,8 +101,8 @@ In your template:
 .. |pypi| image:: https://img.shields.io/pypi/v/django-revision.svg
     :target: https://pypi.python.org/pypi/django-revision
     
-.. |travis| image:: https://travis-ci.org/erikvw/django-revision.svg?branch=develop
-    :target: https://travis-ci.org/erikvw/django-revision
+.. |actions| image:: https://github.com/erikvw/django-revision/workflows/build/badge.svg?branch=develop
+  :target: https://github.com/erikvw/django-revision/actions?query=workflow:build
     
 .. |codecov| image:: https://codecov.io/gh/erikvw/django-revision/branch/develop/graph/badge.svg
   :target: https://codecov.io/gh/erikvw/django-revision

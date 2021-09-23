@@ -1,6 +1,8 @@
-from django.conf import settings
-from git import Repo, GitDB, GitCommandError, InvalidGitRepositoryError
 from pathlib import PurePath
+
+from django.conf import settings
+from django_revision.constants import NO_TAG
+from git import GitCmdObjectDB, GitCommandError, InvalidGitRepositoryError, Repo
 
 
 class DummyBranch:
@@ -8,6 +10,19 @@ class DummyBranch:
 
     def __str__(self):
         return self.commit
+
+
+def get_best_tag(repo):
+    try:
+        tag = repo.git.describe(tags=True)
+    except GitCommandError:
+        tag = str(repo.head.reference.commit)
+    except (AttributeError, GitCommandError):
+        try:
+            tag = repo.tag
+        except AttributeError:
+            tag = settings.REVISION
+    return tag
 
 
 class DummyRepo:
@@ -22,23 +37,27 @@ class DummyRepo:
 
 
 class Revision:
-    def __init__(self, working_dir=None, manual_revision=None, max_length=None):
+    def __init__(
+        self,
+        working_dir=None,
+        manual_revision=None,
+        max_length=None,
+    ):
         self._tag = None
-        self.commit = None
         self.branch = None
+        self.commit = None
         self.invalid = False
         self.max_length = max_length or 75
+
         try:
             self.working_dir = working_dir or settings.GIT_DIR
         except AttributeError:
             self.working_dir = str(PurePath(settings.BASE_DIR).parent)
         try:
-            self.repo = Repo(self.working_dir, odbt=GitDB)
+            self.repo = Repo(self.working_dir, odbt=GitCmdObjectDB)
         except InvalidGitRepositoryError:
-            try:
-                self.repo = DummyRepo(tag=settings.REVISION)
-            except AttributeError:
-                self.repo = DummyRepo(tag=manual_revision)
+            tag = manual_revision or getattr(settings, "REVISION", NO_TAG)
+            self.repo = DummyRepo(tag=tag)
         try:
             self.branch = str(self.repo.active_branch)
             self.commit = str(self.repo.active_branch.commit)
@@ -63,12 +82,7 @@ class Revision:
     @property
     def tag(self):
         if not self._tag:
-            try:
-                self._tag = self.repo.git.describe(tags=True)
-            except GitCommandError:
-                self._tag = ""
-            except AttributeError:
-                self._tag = self.repo.tag
+            self._tag = get_best_tag(self.repo)
         return self._tag
 
 

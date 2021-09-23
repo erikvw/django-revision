@@ -1,5 +1,6 @@
 from django.views.generic.base import ContextMixin
-from django_revision.revision import Revision
+
+from .revision import Revision
 
 
 class RevisionMixin(ContextMixin):
