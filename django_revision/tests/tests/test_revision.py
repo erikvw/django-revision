@@ -2,12 +2,11 @@ from tempfile import mkdtemp
 from unittest.case import skip
 
 from django.conf import settings
-from django.test import TransactionTestCase, tag  # noqa
+from django.test import TransactionTestCase
 from django.test.utils import override_settings
-from django_revision.apps import check_revision
-from django_revision.revision import Revision, site_revision
+from django_revision import Revision, check_revision, site_revision
 from django_revision.views import RevisionMixin
-from git import GitDB, Repo
+from git import GitCmdObjectDB, Repo
 from git.exc import InvalidGitRepositoryError
 
 from ..models import TestModel
@@ -16,7 +15,7 @@ from ..models import TestModel
 class TestRevision(TransactionTestCase):
     def setUp(self):
         path = settings.BASE_DIR
-        repo = Repo(path, odbt=GitDB)
+        repo = Repo(path, odbt=GitCmdObjectDB)
         self.tag = str(repo.git.describe(tags=True))
         try:
             self.branch = str(repo.active_branch)
@@ -49,7 +48,7 @@ class TestRevision(TransactionTestCase):
 
     def test_revision(self):
         path = settings.BASE_DIR
-        repo = Repo(path, odbt=GitDB)
+        repo = Repo(path, odbt=GitCmdObjectDB)
         revision_tag = repo.git.describe(tags=True)
         self.assertEquals(revision_tag, site_revision.tag)
 
@@ -68,7 +67,7 @@ class TestRevision(TransactionTestCase):
     @override_settings(REVISION="0.0.0")
     def test_working_dir(self):
         folder = "/tmp"
-        self.assertRaises(InvalidGitRepositoryError, Repo, folder, odbt=GitDB)
+        self.assertRaises(InvalidGitRepositoryError, Repo, folder, odbt=GitCmdObjectDB)
         self.assertEqual(Revision(working_dir=folder).revision, settings.REVISION)
 
     @skip("mock")
