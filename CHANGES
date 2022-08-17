@@ -1,0 +1,9 @@
+0.3.1
+-----
+- add testing up to py310, dj41
+- add pre-commit config
+- fix tests failing on invalid working directory
+- default view mixin to add tag or commit to template context
+
+0.3.0
+-----

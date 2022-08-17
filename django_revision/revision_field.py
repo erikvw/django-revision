@@ -14,7 +14,7 @@ class RevisionField(CharField):
         kwargs.setdefault("null", True)
         kwargs.setdefault("max_length", 75)
         kwargs.setdefault("verbose_name", "Revision")
-        super(RevisionField, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def pre_save(self, model, add):
         value = site_revision.revision

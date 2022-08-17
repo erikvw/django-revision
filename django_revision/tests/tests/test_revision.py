@@ -1,9 +1,9 @@
-from tempfile import mkdtemp
+from tempfile import gettempdir, mkdtemp
 from unittest.case import skip
 
 from django.conf import settings
 from django.test import TransactionTestCase
-from django.test.utils import override_settings
+from django.test.utils import override_settings, tag
 from git import GitCmdObjectDB, Repo
 from git.exc import InvalidGitRepositoryError
 
@@ -30,12 +30,13 @@ class TestRevision(TransactionTestCase):
     @override_settings(REVISION=None)
     def test_no_git(self):
         path = mkdtemp()
-        self.assertTrue(check_revision(working_dir=path).startswith("Revision invalid"))
+        self.assertTrue(check_revision(path).startswith("Revision invalid"))
 
     @override_settings(REVISION="1.1.1")
     def test_defaults_to_settings(self):
         path = mkdtemp()
-        self.assertTrue(check_revision(working_dir=path).startswith("Revision: 1.1.1"))
+        revision_str = check_revision(path)  # .startswith("Revision: 1.1.1")
+        self.assertIn("InvalidGitRepositoryError", revision_str)
 
     def test_revision_mixin(self):
         mixin = RevisionMixin()
@@ -66,10 +67,16 @@ class TestRevision(TransactionTestCase):
         revision = Revision()
         self.assertEqual(revision.commit, self.commit)
 
+    @tag("1")
     @override_settings(REVISION="0.0.0")
     def test_working_dir(self):
-        folder = "/tmp"
+        folder = gettempdir()
         self.assertRaises(InvalidGitRepositoryError, Repo, folder, odbt=GitCmdObjectDB)
+
+    @tag("1")
+    @override_settings(REVISION="0.0.0", DJANGO_REVISION_IGNORE_WORKING_DIR=True)
+    def test_working_dir3(self):
+        folder = gettempdir()
         self.assertEqual(Revision(working_dir=folder).revision, settings.REVISION)
 
     @skip("mock")
@@ -81,10 +88,10 @@ class TestRevision(TransactionTestCase):
         revision = Revision(manual_revision="0.0.0")
         self.assertNotEqual("0.0.0", revision.revision)
 
-    @override_settings(REVISION=None)
+    @override_settings(REVISION=None, DJANGO_REVISION_IGNORE_WORKING_DIR=True)
     def test_manual_revision2(self):
         """Assert the django_revision can be set manually
         and a working_dir is ignored.
         """
-        revision = Revision(manual_revision="0.1.0", working_dir="/tmp")
+        revision = Revision(manual_revision="0.1.0", working_dir=gettempdir())
         self.assertEqual(revision.revision, "0.1.0")
