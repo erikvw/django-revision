@@ -12,9 +12,9 @@ For example:
 .. code-block:: python
 
     from django.db import models
-    
+
     from django_revision import RevisionField
-    
+
     class TestModel(models.Model):
 
         revision = RevisionField()
@@ -65,9 +65,9 @@ If your `git` working directory is something other than ``settings.BASE_DIR`` ad
 .. code-block:: python
 
     GIT_DIR = BASE_DIR.ancestor(2)
-    
+
 If you have a deployment case where the source folder is not a `git` repo, you can set the revision manually in settings:
-	
+
 .. code-block:: python
 
     REVISION = '0.1.3'
@@ -88,7 +88,7 @@ In your template:
 
 .. code-block:: python
 
-    {% block footer %} 
+    {% block footer %}
 	<footer class="footer">
 	  <div class="container">
 	    <div class="col-md-4"><p class="text-muted text-center"><small>{{ year }}&nbsp;{{ institution }}</small></p></div>
@@ -100,10 +100,10 @@ In your template:
 
 .. |pypi| image:: https://img.shields.io/pypi/v/django-revision.svg
     :target: https://pypi.python.org/pypi/django-revision
-    
+
 .. |actions| image:: https://github.com/erikvw/django-revision/workflows/build/badge.svg?branch=develop
   :target: https://github.com/erikvw/django-revision/actions?query=workflow:build
-    
+
 .. |codecov| image:: https://codecov.io/gh/erikvw/django-revision/branch/develop/graph/badge.svg
   :target: https://codecov.io/gh/erikvw/django-revision
 
