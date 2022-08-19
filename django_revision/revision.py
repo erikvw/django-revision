@@ -17,7 +17,12 @@ def get_best_tag(repo):
     try:
         tag = repo.git.describe(tags=True)
     except GitCommandError:
-        tag = str(repo.head.reference.commit)
+        try:
+            tag = str(repo.head.reference.commit)
+        except TypeError as e:
+            if "HEAD is a detached" not in str(e):
+                raise
+            tag = "detached"
     except (AttributeError, GitCommandError):
         try:
             tag = repo.tag
