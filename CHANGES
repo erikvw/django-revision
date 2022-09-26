@@ -1,3 +1,7 @@
+0.3.6
+-----
+- remove ContextMixin from RevisionMixin
+
 0.3.1
 -----
 - add testing up to py310, dj41

@@ -1,9 +1,7 @@
-from django.views.generic.base import ContextMixin
-
 from .revision import Revision
 
 
-class RevisionMixin(ContextMixin):
+class RevisionMixin:
 
     manual_revision = None
 

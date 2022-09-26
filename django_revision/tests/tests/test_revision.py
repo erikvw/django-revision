@@ -3,7 +3,8 @@ from unittest.case import skip
 
 from django.conf import settings
 from django.test import TransactionTestCase
-from django.test.utils import override_settings, tag
+from django.test.utils import override_settings
+from django.views.generic.base import ContextMixin
 from git import GitCmdObjectDB, Repo
 from git.exc import InvalidGitRepositoryError
 
@@ -12,6 +13,10 @@ from django_revision.revision import get_best_tag
 from django_revision.views import RevisionMixin
 
 from ..models import TestModel
+
+
+class MyRevisionView(RevisionMixin, ContextMixin):
+    pass
 
 
 class TestRevision(TransactionTestCase):
@@ -39,8 +44,8 @@ class TestRevision(TransactionTestCase):
         self.assertIn("InvalidGitRepositoryError", revision_str)
 
     def test_revision_mixin(self):
-        mixin = RevisionMixin()
-        self.assertIn("revision", mixin.get_context_data())
+        view = MyRevisionView()
+        self.assertIn("revision", view.get_context_data())
 
     def test_model(self):
         test_model = TestModel()
@@ -53,7 +58,7 @@ class TestRevision(TransactionTestCase):
         path = settings.BASE_DIR
         repo = Repo(path, odbt=GitCmdObjectDB)
         revision_tag = get_best_tag(repo)
-        self.assertEquals(revision_tag, site_revision.tag)
+        self.assertEqual(revision_tag, site_revision.tag)
 
     def test_revision_branch(self):
         revision = Revision()
@@ -67,13 +72,11 @@ class TestRevision(TransactionTestCase):
         revision = Revision()
         self.assertEqual(revision.commit, self.commit)
 
-    @tag("1")
     @override_settings(REVISION="0.0.0")
     def test_working_dir(self):
         folder = gettempdir()
         self.assertRaises(InvalidGitRepositoryError, Repo, folder, odbt=GitCmdObjectDB)
 
-    @tag("1")
     @override_settings(REVISION="0.0.0", DJANGO_REVISION_IGNORE_WORKING_DIR=True)
     def test_working_dir3(self):
         folder = gettempdir()
