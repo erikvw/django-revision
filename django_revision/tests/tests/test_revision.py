@@ -21,7 +21,7 @@ class MyRevisionView(RevisionMixin, ContextMixin):
 
 class TestRevision(TransactionTestCase):
     def setUp(self):
-        path = settings.BASE_DIR
+        path = settings.GIT_DIR
         repo = Repo(path, odbt=GitCmdObjectDB)
         self.tag = get_best_tag(repo)
         try:
@@ -55,7 +55,7 @@ class TestRevision(TransactionTestCase):
         self.assertEqual(test_model.revision, self.revision)
 
     def test_revision(self):
-        path = settings.BASE_DIR
+        path = settings.GIT_DIR
         repo = Repo(path, odbt=GitCmdObjectDB)
         revision_tag = get_best_tag(repo)
         self.assertEqual(revision_tag, site_revision.tag)
@@ -86,7 +86,7 @@ class TestRevision(TransactionTestCase):
     @override_settings(REVISION="0.0.0")
     def test_manual_revision1(self):
         """Assert the django_revision does not set manually
-        if repo can be found .
+        if repo can be found.
         """
         revision = Revision(manual_revision="0.0.0")
         self.assertNotEqual("0.0.0", revision.revision)

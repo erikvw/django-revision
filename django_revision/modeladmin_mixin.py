@@ -2,7 +2,6 @@ from .revision import site_revision
 
 
 class ModelAdminRevisionMixin:
-
     """Adds revision to the ModelAdmin context.
 
     Add to the change_form.html, for example:

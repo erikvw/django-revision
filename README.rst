@@ -5,7 +5,7 @@ django-revision
 
 Add a Django field class to your models to track the git revision with every model instance saved.
 
-python 3.7, Django 3.0+. Uses `GitPython`.
+python 3.12+, Django 5.2+. Uses `GitPython`.
 
 For example:
 
@@ -22,7 +22,7 @@ For example:
 .. code-block:: python
 
     >>> test_model = TestModel.objects.create()
-    >>>test_model.revision
+    >>> test_model.revision
     '0.1dev0'
 
 If the source is modified after the git tag was applied:
@@ -30,8 +30,8 @@ If the source is modified after the git tag was applied:
 .. code-block:: python
 
     >>> test_model = TestModel.objects.create()
-    >>>test_model.revision
-    >>> '0.1dev0-35-ge9f632e:develop:e9f632e92143c53411290b576487f48c15156603'
+    >>> test_model.revision
+    '0.1dev0-35-ge9f632e:develop:e9f632e92143c53411290b576487f48c15156603'
 
 Reference git information from anywhere in your app:
 
@@ -40,7 +40,7 @@ Reference git information from anywhere in your app:
     >>> from django_revision import site_revision
     >>> site_revision.tag
     '0.1dev0'
-    >>>site_revision.revision
+    >>> site_revision.revision
     '0.1dev0'
 
 
@@ -55,9 +55,9 @@ Add to settings:
 .. code-block:: python
 
     INSTALLED_APPS = [
-        ...
+        # ...
         'django_revision.apps.AppConfig',
-        ...
+        # ...
     ]
 
 If your `git` working directory is something other than ``settings.BASE_DIR`` add ``GIT_DIR`` to ``settings`` with the path to your `git` working directory. For example:
@@ -86,7 +86,7 @@ In the view's ``get_context_data`` set a context attribute to ``revision.tag`` o
 
 In your template:
 
-.. code-block:: python
+.. code-block:: html
 
     {% block footer %}
 	<footer class="footer">

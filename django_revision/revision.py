@@ -77,7 +77,9 @@ class Revision:
         opts = ":".join([item for item in [self.tag, self.branch, self.commit] if item])
         self.revision = f"{opts}"[0 : self.max_length]
         if not self.revision:
-            self.repo = DummyRepo(tag=f"no revision info! Check GIT_DIR={self.working_dir}.")
+            self.repo = DummyRepo(
+                tag=f"no revision info! Check GIT_DIR={self.working_dir}."
+            )
             self.invalid = True
 
     def __repr__(self):
