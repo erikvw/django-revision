@@ -2,7 +2,7 @@
 name = "django-revision"
 dynamic = ["version"]
 description = "Track the git revision with every model instance saved"
-readme = "README.md"
+readme = {file = "README.rst", content-type = "text/x-rst"}
 dependencies = ['GitPython']
 requires-python = '>=3.12'
 keywords = ['Django', 'git', 'revision', 'clinicedc', 'edc']
