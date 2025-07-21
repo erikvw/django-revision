@@ -25,7 +25,7 @@ Repository = "https://github.com/erikvw/django-revision.git"
 Changelog = "https://github.com/erikvw/django-revision/blob/main/CHANGES"
 
 [project.optional-dependencies]
-test = ["coverage", "edc_test_settings"]
+test = ["coverage", "edc_test_settings", "edc_utils"]
 
 [build-system]
 requires = ["setuptools>=64", "setuptools-scm>=8"]
