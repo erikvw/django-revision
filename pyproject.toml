@@ -9,7 +9,7 @@ namespace = false
 
 [project]
 name = "django-revision"
-version = "1.0.0"
+version = "2.0.0"
 description = "Track the git revision with every model instance saved"
 readme = {file = "README.rst", content-type = "text/x-rst"}
 dependencies = [
