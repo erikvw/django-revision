@@ -20,6 +20,7 @@ project_settings = DefaultTestSettings(
         "django.contrib.sites",
         "django.contrib.staticfiles",
         "django_revision.apps.AppConfig",
+        "tests",
     ],
     use_test_urls=True,
 ).settings

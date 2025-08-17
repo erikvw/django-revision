@@ -1,4 +1,0 @@
-[run]
-include = django_revision/*
-omit = django_revision/tests/*
-branch = 1
