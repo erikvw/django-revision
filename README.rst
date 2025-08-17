@@ -77,13 +77,13 @@ If the source is modified after the git tag was applied:
 How django-revision discovers the revision number
 -------------------------------------------------
 
-``django-revision`` was originally developed to discover the git tag when a django project is run from a cloned git repository. By default, an exception will be raised if whe working directory is not a git repository. However this behaviour can be bypassed by telling ``django-revision`` to ignore git discovery. ``django-revision`` will then try to discover a revision number from other sources. If all sources fail, an exception is raised.
+``django-revision`` was originally developed to discover the git tag when a django project is run from a cloned git repository. By default, an exception will be raised if the working directory is not a git repository. However this behaviour can be bypassed by telling ``django-revision`` to ignore git discovery. ``django-revision`` will then try to discover a revision number from other sources. If all sources fail, an exception is raised.
 
 The ``revision`` number is discovered in this order:
 
-1. git tag if working directory is a git repository
+1. from the git tag if working directory is a git repository
 2. from package metadata ``version()``
-3. ``[project][version]`` from ``pyproject.toml``, if it exists
+3. from ``[project][version]`` from ``pyproject.toml``, if it exists
 4. from ``VERSION``, if it exists
 5. from  ``settings.REVISION``
 

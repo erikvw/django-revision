@@ -318,7 +318,7 @@ requires-dist = [
 [package.metadata.requires-dev]
 dev = [
     { name = "django", specifier = ">=5.2" },
-    { name = "edc-test-settings", specifier = ">=1.1.2" },
+    { name = "edc-test-settings", editable = "../edc-test-settings" },
     { name = "ipython", specifier = ">=9.4.0" },
     { name = "python-dateutil", specifier = ">=2.9.0.post0" },
 ]
@@ -337,7 +337,7 @@ lint = [
 test = [
     { name = "coverage", specifier = ">=7.10.3" },
     { name = "django", specifier = ">=5.2" },
-    { name = "edc-test-settings", specifier = ">=1.1.2" },
+    { name = "edc-test-settings", editable = "../edc-test-settings" },
     { name = "python-dateutil", specifier = ">=2.9.0.post0" },
     { name = "tox-uv", specifier = ">=1.28.0" },
 ]
@@ -354,10 +354,95 @@ wheels = [
 [[package]]
 name = "edc-test-settings"
 version = "1.1.2"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/b9/b2/3fb900f0deb5b4e206b879e4d61507e9ee9980ac2544c1ac6332fb8d7ac0/edc_test_settings-1.1.2.tar.gz", hash = "sha256:472feaee3cb6db212a257aea6dfa4cf0243ca0b6e0531c3e464c8e4aba5544f9", size = 21476, upload-time = "2025-07-21T16:11:07.269Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/78/f8/68ba3dafea23a7f2d3a06adb01142ef8237bf306f2ee2db89d9d574a3453/edc_test_settings-1.1.2-py3-none-any.whl", hash = "sha256:60c7aa38af6ad2dae28029f5ef5f9399f094be830a1c647c2e146f779fa236dc", size = 19491, upload-time = "2025-07-21T16:11:06.141Z" },
+source = { editable = "../edc-test-settings" }
+
+[package.metadata]
+
+[package.metadata.requires-dev]
+docs = [
+    { name = "furo", specifier = ">=2025.7.19" },
+    { name = "sphinx", specifier = ">=8.2.3" },
+    { name = "sphinx-design", specifier = ">=0.6.1" },
+    { name = "sphinx-inline-tabs", specifier = ">=2023.4.21" },
+]
+lint = [
+    { name = "black", specifier = ">=25.1.0" },
+    { name = "deptry", specifier = ">=0.23.0" },
+    { name = "flake8", specifier = ">=7.3.0" },
+    { name = "isort", specifier = ">=6.0.1" },
+    { name = "ruff", specifier = ">=0.12.5" },
+]
+test = [
+    { name = "adverse-event-app", specifier = ">=0.1.1" },
+    { name = "coverage", specifier = ">=7.10.1" },
+    { name = "django-admin-rangefilter", specifier = ">=0.13.3" },
+    { name = "django-crypto-fields", specifier = ">=1.0.1" },
+    { name = "django-db-views", specifier = ">=0.1.11" },
+    { name = "django-logentry-admin", specifier = ">=1.1.0" },
+    { name = "django-multisite2", specifier = ">=2.1.0" },
+    { name = "django-pandas", specifier = ">=0.6.7" },
+    { name = "django-revision", specifier = ">=1.0.0" },
+    { name = "django-simple-history", specifier = ">=3.10.1" },
+    { name = "django-webtest", specifier = ">=1.9.13" },
+    { name = "edc-action-item", specifier = ">=1.0.3" },
+    { name = "edc-adverse-event", specifier = ">=1.1.2" },
+    { name = "edc-appconfig", specifier = ">=1.0.2" },
+    { name = "edc-appointment", specifier = ">=1.1.1" },
+    { name = "edc-appointment-app", specifier = ">=0.2.0" },
+    { name = "edc-auth", specifier = ">=1.0.2" },
+    { name = "edc-consent", specifier = ">=1.0.3" },
+    { name = "edc-constants", specifier = ">=1.0.1" },
+    { name = "edc-crf", specifier = ">=1.0.1" },
+    { name = "edc-dashboard", specifier = ">=1.0.3" },
+    { name = "edc-data-manager", specifier = ">=1.0.0" },
+    { name = "edc-device", specifier = ">=1.0.1" },
+    { name = "edc-document-status", specifier = ">=1.0.0" },
+    { name = "edc-export", specifier = ">=1.0.4" },
+    { name = "edc-facility", specifier = ">=1.0.2" },
+    { name = "edc-fieldsets", specifier = ">=1.0.1" },
+    { name = "edc-form-runners", specifier = ">=1.0.0" },
+    { name = "edc-form-validators", specifier = ">=1.0.0" },
+    { name = "edc-identifier", specifier = ">=1.0.0" },
+    { name = "edc-lab", specifier = ">=1.0.5" },
+    { name = "edc-label", specifier = ">=1.0.0" },
+    { name = "edc-list-data", specifier = ">=1.0.0" },
+    { name = "edc-listboard", specifier = ">=1.0.0" },
+    { name = "edc-locator", specifier = ">=1.0.2" },
+    { name = "edc-ltfu", specifier = ">=1.0.1" },
+    { name = "edc-metadata", specifier = ">=1.0.5" },
+    { name = "edc-model", specifier = ">=1.0.0" },
+    { name = "edc-model-admin", specifier = ">=1.0.3" },
+    { name = "edc-model-form", specifier = ">=1.0.0" },
+    { name = "edc-model-to-dataframe", specifier = ">=1.0.1" },
+    { name = "edc-navbar", specifier = ">=1.0.0" },
+    { name = "edc-notification", specifier = ">=1.0.1" },
+    { name = "edc-offstudy", specifier = ">=1.0.1" },
+    { name = "edc-pdf-reports", specifier = ">=1.0.2" },
+    { name = "edc-pdutils", specifier = ">=1.0.2" },
+    { name = "edc-pharmacy", specifier = ">=1.2.3" },
+    { name = "edc-prn", specifier = ">=1.1.1" },
+    { name = "edc-protocol", specifier = ">=1.0.1" },
+    { name = "edc-qareports", specifier = ">=1.0.4" },
+    { name = "edc-randomization", specifier = ">=1.0.4" },
+    { name = "edc-registration", specifier = ">=1.0.1" },
+    { name = "edc-reportable", specifier = ">=2.0.2" },
+    { name = "edc-review-dashboard", specifier = ">=1.0.2" },
+    { name = "edc-screening", specifier = ">=1.1.0" },
+    { name = "edc-search", specifier = ">=1.0.1" },
+    { name = "edc-sites", specifier = ">=1.1.0" },
+    { name = "edc-subject-dashboard", specifier = ">=1.0.1" },
+    { name = "edc-test-settings", specifier = ">=1.1.2" },
+    { name = "edc-test-utils", specifier = ">=1.0.0" },
+    { name = "edc-timepoint", specifier = ">=1.0.1" },
+    { name = "edc-unblinding", specifier = ">=1.0.2" },
+    { name = "edc-view-utils", specifier = ">=1.0.1" },
+    { name = "edc-visit-schedule", specifier = ">=4.1.1" },
+    { name = "edc-visit-tracking", specifier = ">=1.0.2" },
+    { name = "faker", specifier = ">=37.4.2" },
+    { name = "model-bakery", specifier = ">=1.20.5" },
+    { name = "time-machine", specifier = ">=2.16.0" },
+    { name = "tox-uv", specifier = ">=1.26.2" },
+    { name = "tqdm", specifier = ">=4.67.1" },
 ]
 
 [[package]]
