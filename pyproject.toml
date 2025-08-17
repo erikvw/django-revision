@@ -1,9 +1,21 @@
+[build-system]
+requires = ["uv_build>=0.8.2,<0.9.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-root = "src"
+source-exclude = ["bin"]
+namespace = false
+
 [project]
 name = "django-revision"
-dynamic = ["version"]
+version = "1.0.0"
 description = "Track the git revision with every model instance saved"
 readme = {file = "README.rst", content-type = "text/x-rst"}
-dependencies = ['GitPython']
+dependencies = [
+    'GitPython',
+    "python-dateutil>=2.9.0.post0",
+]
 requires-python = '>=3.12'
 keywords = ['Django', 'git', 'revision', 'clinicedc', 'edc']
 authors = [{name="Erik van Widenfelt", email="ew2789@gmail.com"}]
@@ -24,81 +36,65 @@ Documentation = "https://github.com/erikvw/django-revision/blob/README.rst"
 Repository = "https://github.com/erikvw/django-revision.git"
 Changelog = "https://github.com/erikvw/django-revision/blob/main/CHANGES"
 
-[project.optional-dependencies]
-test = ["coverage", "edc_test_settings", "edc_utils"]
-
-[build-system]
-requires = ["setuptools>=64", "setuptools-scm>=8"]
-
-[tool.setuptools_scm]
-version_file="_version.py"
-
 [tool.black]
 line-length = 88
 target-version = ["py312"]
-extend-exclude = '''^(.*\/)*\b(migrations)\b($|\/.*$)'''
+extend-exclude = '''^(.*\/)*\b(migrations|\.venv)\b($|\/.*$)'''
 
 [tool.isort]
 profile = "black"
 py_version = "312"
-skip = [".tox", ".eggs", "migrations", "_version.py"]
+skip = [".tox", ".eggs", "migrations", "_version.py", ".venv"]
 
 [tool.coverage.run]
 parallel = false
 branch = true
-source = ["django_revision"]
+source = ["src"]
 
 [tool.coverage.paths]
-source = ["django_revision"]
+source = ["drc"]
 
 [tool.coverage.report]
 show_missing = true
 skip_covered = true
+omit = ["requirements.txt"]
 exclude_lines = [
   "pragma: no cover",
   "if TYPE_CHECKING:",
 ]
 
-[tool.tox]
-legacy_tox_ini = """
-[tox]
-envlist =
-    py{312}-dj{50},
-    py{313}-dj{50,dev},
-    lint
+[tool.rstcheck]
+ignore_directives = ["toctree", "code-block"]
 
-isolated_build = true
+[dependency-groups]
+dev = [
+    "django>=5.2",
+    "ipython>=9.4.0",
+    "python-dateutil>=2.9.0.post0",
+    "edc-test-settings>=1.1.2",
+]
+docs = [
+    "furo>=2025.7.19",
+    "sphinx>=8.2.3",
+    "sphinx-design>=0.6.1",
+    "sphinx-inline-tabs>=2023.4.21",
+]
+lint = [
+    "black>=25.1.0",
+    "flake8>=7.3.0",
+    "isort==5.13.2",
+    "ruff>=0.12.5",
+]
 
-[gh-actions]
-python =
-    3.12: py312
-    3.13: py313, lint
+test = [
+    "coverage>=7.10.3",
+    "django>=5.2",
+    "edc-test-settings>=1.1.2",
+    "python-dateutil>=2.9.0.post0",
+    "tox-uv>=1.28.0",
+]
 
-[gh-actions:env]
-DJANGO =
-    5.2: dj52
-    dev: djdev, lint
-
-[testenv]
-deps =
-    -r https://raw.githubusercontent.com/clinicedc/edc/develop/requirements.tests/tox.txt
-    -r https://raw.githubusercontent.com/clinicedc/edc/develop/requirements.tests/test_utils.txt
-    -r https://raw.githubusercontent.com/clinicedc/edc/develop/requirements.tests/edc.txt
-    -r https://raw.githubusercontent.com/clinicedc/edc/develop/requirements.tests/third_party_dev.txt
-    dj52: Django>=5.2,<5.3
-    djdev: https://github.com/django/django/tarball/main
-
-commands =
-    pip install -U pip coverage[toml]
-    pip --version
-    pip freeze
-    coverage run -a runtests.py
-    coverage report
-
-[testenv:lint]
-deps = -r https://raw.githubusercontent.com/clinicedc/edc/develop/requirements.tests/lint.txt
-commands =
-    isort --profile=black --check --diff .
-    black --check --diff .
-    flake8 .
-"""
+[tool.uv.sources]
+django-revision = { workspace = true }
+edc-test-settings = { path = "../edc-test-settings", editable = true }
+edc-test-utils = { path = "../edc-test-utils", editable = true }

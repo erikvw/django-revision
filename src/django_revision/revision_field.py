@@ -4,7 +4,14 @@ from .revision import site_revision
 
 
 class RevisionField(CharField):
-    """Updates the value to the current git branch and commit."""
+    """Updates the revision number.
+
+    Value is discovered from the current git branch and commit,
+    the project metadata, the project pyproject.toml, the project
+    VERSION file, or from settings.REVISION.
+
+    See also the settings attributes that control discovery.
+    """
 
     description = "RevisionField"
 
