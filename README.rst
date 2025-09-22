@@ -7,11 +7,13 @@ Add a Django field class to your models to track a revision number with every mo
 
 python 3.12+, Django 5.2+. Uses `GitPython`.
 
-Required for research trials
-----------------------------
-For research trial data, you need to track the source code revision at time of data collection and modification. For example, if you deploy your live Django project from a cloned git branch, ``django-revision`` picks up the tag:branch:commit and updates each saved model instance as data is collected. If you are not using a cloned repository, ``django-revision`` can discover the revision number from other sources as described below.
+Use ``django-revision`` in Django projects where you need to track the source code revision on each model instance on add and change.
 
-When used with `django-simple-history`_, you can trace the revision number through all modifications of a model instance.
+* If you deploy your live Django project from a cloned git branch, ``django-revision`` picks up the ``tag:branch:commit`` and updates each saved model instance as data is collected.
+* If you are not running your Django project from a cloned repository, ``django-revision`` can discover the revision number from other sources as described below.
+
+When used together with `django-simple-history`_, you can trace the revision number through the audit trail of a model instance.
+
 
 Installation
 ------------
@@ -167,6 +169,13 @@ In your template:
         </div>
       </footer>
     {% endblock footer %}
+
+Recommended for research trials
+-------------------------------
+For research trial data, you need to track the source code revision at time of data collection and modification. For example, if you deploy your live Django project from a cloned git branch, ``django-revision`` picks up the ``tag:branch:commit`` and updates each saved model instance as data is collected. If you running your Django project from a cloned repository, ``django-revision`` can discover the revision number from other sources as described above.
+
+When used with `django-simple-history`_, you can trace the revision number through all modifications of a model instance.
+
 
 .. |pypi| image:: https://img.shields.io/pypi/v/django-revision.svg
     :target: https://pypi.python.org/pypi/django-revision
