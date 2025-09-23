@@ -10,7 +10,7 @@ class RevisionGitError(Exception):
     pass
 
 
-class RevisionGitDirDoesNotExist(Exception):
+class RevisionGitDirDoesNotExist(Exception):  # noqa: N818
     pass
 
 

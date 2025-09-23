@@ -1,4 +1,3 @@
-import os
 import tempfile
 from pathlib import Path
 from tempfile import gettempdir
@@ -24,8 +23,8 @@ class MyRevisionView(RevisionMixin, ContextMixin):
 def create_temp_repo_with_tag():
     repo = create_temp_repo_without_tag()
     repo.create_tag("0.0.1")
-    file_path = os.path.join(repo.working_dir, "test_file2.txt")
-    with open(file_path, "w") as f:
+    file_path = Path(repo.working_dir) / "test_file2.txt"
+    with file_path.open("w") as f:
         f.write("This is another test file.")
     repo.index.add(["test_file2.txt"])
     repo.index.commit("add test_file2.txt")
@@ -36,8 +35,8 @@ def create_temp_repo_with_tag():
 def create_temp_repo_without_tag():
     repo_path = tempfile.mkdtemp()
     repo = git.Repo.init(repo_path)
-    file_path = os.path.join(repo_path, "test_file.txt")
-    with open(file_path, "w") as f:
+    file_path = Path(repo_path) / "test_file.txt"
+    with file_path.open("w") as f:
         f.write("This is a test file.")
     repo.index.add(["test_file.txt"])
     repo.index.commit("Initial commit for testing")
@@ -45,16 +44,13 @@ def create_temp_repo_without_tag():
 
 
 class TestRevision(TransactionTestCase):
-
     @override_settings(REVISION=None, GIT_DIR=create_temp_repo_with_tag().working_dir)
     def test_is_a_git_dir_with_tag(self):
         revision = Revision()
         self.assertTrue(str(revision).startswith("0.0.2"))
         self.assertTrue("master" in str(revision))
 
-    @override_settings(
-        REVISION=None, GIT_DIR=create_temp_repo_without_tag().working_dir
-    )
+    @override_settings(REVISION=None, GIT_DIR=create_temp_repo_without_tag().working_dir)
     def test_is_a_git_dir_without_tag(self):
         revision = Revision()
         self.assertFalse(str(revision).startswith("0.0"))
@@ -88,7 +84,7 @@ class TestRevision(TransactionTestCase):
         [project]
         version = "9.9.9"
         """
-        with open(Path(settings.BASE_DIR) / "pyproject.toml", "w") as f:
+        with (Path(settings.BASE_DIR) / "pyproject.toml").open("w") as f:
             f.write(toml_content)
         self.assertEqual(str(Revision()), "9.9.9")
 
@@ -102,7 +98,7 @@ class TestRevision(TransactionTestCase):
     )
     def test_defaults_to_version_file(self):
         content = "8.8.8"
-        with open(Path(settings.BASE_DIR) / "VERSION", "w") as f:
+        with (Path(settings.BASE_DIR) / "VERSION").open("w") as f:
             f.write(content)
         self.assertEqual(str(Revision()), "8.8.8")
 

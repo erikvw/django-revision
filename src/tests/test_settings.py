@@ -3,7 +3,7 @@ from pathlib import Path
 
 from edc_test_settings.default_test_settings import DefaultTestSettings
 
-app_name = "django_revision"
+app_name = "tests"
 base_dir = Path(__file__).absolute().parent.parent
 
 project_settings = DefaultTestSettings(
@@ -19,10 +19,10 @@ project_settings = DefaultTestSettings(
         "django.contrib.sessions",
         "django.contrib.sites",
         "django.contrib.staticfiles",
-        "django_revision.apps.AppConfig",
         "tests",
+        "django_revision.apps.AppConfig",
     ],
-    use_test_urls=True,
+    use_test_urls=False,
 ).settings
 
 for k, v in project_settings.items():

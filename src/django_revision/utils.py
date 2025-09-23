@@ -1,3 +1,4 @@
+import contextlib
 import tomllib
 import warnings
 from importlib.metadata import PackageNotFoundError, version
@@ -35,7 +36,7 @@ def get_app_name() -> str | None:
     return getattr(settings, "APP_NAME", None)
 
 
-def get_revision_from_metadata(app_name: str = None) -> str:
+def get_revision_from_metadata(app_name: str | None = None) -> str:
     revision = None
     if not ignore_metadata():
         app_name = app_name or get_app_name()
@@ -43,9 +44,8 @@ def get_revision_from_metadata(app_name: str = None) -> str:
             revision = version(app_name)
         except PackageNotFoundError as e:
             warnings.warn(
-                style.WARNING(
-                    "Unable to determine revision from package metadata. " f"Got {e}"
-                )
+                style.WARNING(f"Unable to determine revision from package metadata. Got {e}"),
+                stacklevel=2,
             )
     return revision
 
@@ -57,10 +57,8 @@ def get_revision_from_toml_file(path: Path) -> str | None:
         if path.exists():
             with path.open("rb") as f:
                 toml_data = tomllib.load(f)
-            try:
+            with contextlib.suppress(KeyError):
                 revision = toml_data["project"]["version"]
-            except KeyError:
-                pass
     return revision
 
 

@@ -9,7 +9,7 @@ namespace = false
 
 [project]
 name = "django-revision"
-version = "2.0.1"
+version = "2.0.2"
 description = "Track the git revision with every model instance saved"
 readme = {file = "README.rst", content-type = "text/x-rst"}
 dependencies = [
@@ -36,15 +36,56 @@ Documentation = "https://github.com/erikvw/django-revision/blob/README.rst"
 Repository = "https://github.com/erikvw/django-revision.git"
 Changelog = "https://github.com/erikvw/django-revision/blob/main/CHANGES"
 
-[tool.black]
-line-length = 88
-target-version = ["py312"]
-extend-exclude = '''^(.*\/)*\b(migrations|\.venv)\b($|\/.*$)'''
+[tool.ruff]
+line-length = 95
+indent-width = 4
+target-version = "py312"
+exclude = ["migrations", ".tox", ".venv"]
 
-[tool.isort]
-profile = "black"
-py_version = "312"
-skip = [".tox", ".eggs", "migrations", "_version.py", ".venv"]
+[tool.ruff.lint]
+select = [
+    "A",
+    "ARG",
+    "B",
+    "C90",
+    "COM",
+    "DJ",
+    "DTZ",
+    "E",
+    "F",
+    "FA",
+    "FURB",
+    "I",
+    "INT",
+    "N",
+    "PD",
+    "PERF",
+    "PL",
+    "PLR",
+    "PTH",
+    "RET",
+    "RUF",
+    "S",
+    "SIM",
+    "T20",
+    "TRY",
+    "UP",
+    "W",
+    # "FIX",
+]
+ignore = ["DJ008", "DJ007", "DJ006", "COM812", "PLC0206", "PLR2004", "TRY003"]
+
+[tool.ruff.lint.per-file-ignores]
+    "__init__.py" = ["F401"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 12
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
 
 [tool.coverage.run]
 parallel = false
@@ -52,7 +93,7 @@ branch = true
 source = ["src"]
 
 [tool.coverage.paths]
-source = ["drc"]
+source = ["src"]
 
 [tool.coverage.report]
 show_missing = true
@@ -67,12 +108,6 @@ exclude_lines = [
 ignore_directives = ["toctree", "code-block"]
 
 [dependency-groups]
-dev = [
-    "django>=5.2",
-    "ipython>=9.4.0",
-    "python-dateutil>=2.9.0.post0",
-    "edc-test-settings>=1.1.2",
-]
 docs = [
     "furo>=2025.7.19",
     "sphinx>=8.2.3",
@@ -80,9 +115,6 @@ docs = [
     "sphinx-inline-tabs>=2023.4.21",
 ]
 lint = [
-    "black>=25.1.0",
-    "flake8>=7.3.0",
-    "isort==5.13.2",
     "ruff>=0.12.5",
 ]
 
@@ -97,4 +129,3 @@ test = [
 [tool.uv.sources]
 django-revision = { workspace = true }
 edc-test-settings = { path = "../edc-test-settings", editable = true }
-edc-test-utils = { path = "../edc-test-utils", editable = true }
