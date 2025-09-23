@@ -15,7 +15,7 @@ style = color_style()
 __all__ = ["check_for_revision"]
 
 
-def check_for_revision(app_configs, **kwargs) -> list[CheckMessage]:
+def check_for_revision(app_configs, **kwargs) -> list[CheckMessage]:  # noqa: ARG001
     errors = []
 
     try:

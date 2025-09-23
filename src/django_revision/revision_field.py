@@ -18,12 +18,12 @@ class RevisionField(CharField):
     def __init__(self, *args, **kwargs):
         kwargs.setdefault("editable", False)
         kwargs.setdefault("blank", True)
-        kwargs.setdefault("null", True)
+        kwargs.setdefault("default", "")
         kwargs.setdefault("max_length", 75)
         kwargs.setdefault("verbose_name", "Revision")
         super().__init__(*args, **kwargs)
 
-    def pre_save(self, model, add):
+    def pre_save(self, model, add):  # noqa: ARG002
         value = site_revision.revision
         setattr(model, self.attname, value)
         return value

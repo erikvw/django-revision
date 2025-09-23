@@ -24,10 +24,10 @@ style = color_style()
 class Revision:
     def __init__(
         self,
-        max_length: str | int = None,
+        max_length: str | int | None = None,
         app_name: str | None = None,
         toml_path: Path | str | None = None,
-        verbose: bool = None,
+        verbose: bool | None = None,
     ):
         self._revision = None
         self._tag = None
@@ -63,32 +63,37 @@ class Revision:
             if not ignore_working_dir():
                 self._revision = self.get_revision_from_git_tag()
                 if self.verbose:
-                    warnings.warn(style.WARNING("Getting revision number from git"))
+                    warnings.warn(
+                        style.WARNING("Getting revision number from git"), stacklevel=2
+                    )
             elif revision := get_revision_from_metadata():
                 self._revision = revision
                 if self.verbose:
                     warnings.warn(
-                        style.WARNING("Getting revision number from package metata")
+                        style.WARNING("Getting revision number from package metata"),
+                        stacklevel=2,
                     )
             elif revision := get_revision_from_toml_file(self.toml_path):
                 self._revision = revision
                 if self.verbose:
                     warnings.warn(
-                        style.WARNING("Getting revision number from pyproject.toml")
+                        style.WARNING("Getting revision number from pyproject.toml"),
+                        stacklevel=2,
                     )
             elif revision := get_revision_from_version_file(Path(settings.BASE_DIR)):
                 self._revision = revision
                 if self.verbose:
                     warnings.warn(
-                        style.WARNING("Getting revision number from VERSION file")
+                        style.WARNING("Getting revision number from VERSION file"),
+                        stacklevel=2,
                     )
             elif revision := get_revision_from_settings():
                 self._revision = revision
                 warnings.warn(
                     style.ERROR(
-                        "Getting revision number from settings.REVISION "
-                        "(not recommended)."
-                    )
+                        "Getting revision number from settings.REVISION (not recommended)."
+                    ),
+                    stacklevel=2,
                 )
             else:
                 raise RevisionError(
@@ -117,16 +122,15 @@ class Revision:
                     "Unable to determine the revision number. "
                     f"Invalid GIT_DIR or BASE_DIR. Got {get_git_dir()}."
                 )
-            else:
-                try:
-                    self._repo = Repo(str(get_git_dir()), odbt=GitCmdObjectDB)
-                except InvalidGitRepositoryError:
-                    raise RevisionGitError(
-                        "Unable to determine the revision number. settings.GIT_DIR is "
-                        "not a git repository. Check the folder or set "
-                        "`settings.DJANGO_REVISION_IGNORE_WORKING_DIR=True. "
-                        f"Got `settings.GIT_DIR={get_git_dir()}`"
-                    )
+            try:
+                self._repo = Repo(str(get_git_dir()), odbt=GitCmdObjectDB)
+            except InvalidGitRepositoryError as e:
+                raise RevisionGitError(
+                    "Unable to determine the revision number. settings.GIT_DIR is "
+                    "not a git repository. Check the folder or set "
+                    "`settings.DJANGO_REVISION_IGNORE_WORKING_DIR=True. "
+                    f"Got `settings.GIT_DIR={get_git_dir()}`"
+                ) from e
         return self._repo
 
     @property
@@ -157,9 +161,9 @@ class Revision:
                     self._tag = str(self.repo.head.reference.commit)
                 except TypeError as e:
                     if "HEAD is a detached" not in str(e):
-                        raise RevisionError(e)
+                        raise RevisionError(e) from e
                     self._tag = "detached"
-            except (AttributeError, GitCommandError):
+            except AttributeError:
                 try:
                     self._tag = self.repo.tag
                 except AttributeError:

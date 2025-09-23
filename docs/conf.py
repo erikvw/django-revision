@@ -6,10 +6,10 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-from typing import Any, Dict
+from typing import Any
 
 project = "django-revision"
-copyright = "2025, Erik van Widenfelt"
+copyright = "2025, Erik van Widenfelt"  # noqa: A001
 author = "Erik van Widenfelt"
 release = "1.0.0"
 version = release
@@ -49,7 +49,7 @@ extlinks = {
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_js_files = []
-html_context: Dict[str, Any] = {}
+html_context: dict[str, Any] = {}
 
 html_theme = "furo"
 html_title = "django-revision"
@@ -101,7 +101,7 @@ html_css_files += [
     "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/brands.min.css",
 ]
 
-html_theme_options: Dict[str, Any] = {
+html_theme_options: dict[str, Any] = {
     "footer_icons": [
         {
             "name": "GitHub",
