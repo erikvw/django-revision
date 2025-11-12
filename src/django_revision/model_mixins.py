@@ -4,7 +4,6 @@ from .revision_field import RevisionField
 
 
 class RevisionModelMixin(models.Model):
-
     revision = RevisionField(
         help_text=(
             "System field. From git repository (tag:branch:commit), "
