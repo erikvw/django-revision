@@ -11,4 +11,4 @@ django-revision
 Source code: https://github.com/erikvw/django-revision
 
 .. include:: ../README.rst
-   :start-line: 2
+   :start-line: 3
