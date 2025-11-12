@@ -1,19 +1,10 @@
-[build-system]
-requires = ["uv_build>=0.8.2,<0.9.0"]
-build-backend = "uv_build"
-
-[tool.uv.build-backend]
-module-root = "src"
-source-exclude = ["bin"]
-namespace = false
-
 [project]
 name = "django-revision"
-version = "2.0.3"
+version = "2.1.0"
 description = "Track the git revision with every model instance saved"
 readme = {file = "README.rst", content-type = "text/x-rst"}
 dependencies = [
-    'GitPython',
+    "gitpython>=3.1.45",
     "python-dateutil>=2.9.0.post0",
 ]
 requires-python = '>=3.12'
@@ -35,6 +26,17 @@ Homepage = "https://github.com/erikvw/django-revision"
 Documentation = "https://github.com/erikvw/django-revision/blob/README.rst"
 Repository = "https://github.com/erikvw/django-revision.git"
 Changelog = "https://github.com/erikvw/django-revision/blob/main/CHANGES"
+
+
+[build-system]
+requires = ["uv_build>=0.9.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-root = "src"
+source-exclude = ["bin"]
+namespace = false
+
 
 [tool.ruff]
 line-length = 95
@@ -118,11 +120,11 @@ lint = [
     "ruff>=0.12.5",
 ]
 
-test = [
+dev = [
     "coverage>=7.10.3",
     "django>=5.2",
     "edc-test-settings>=1.1.2",
-    "python-dateutil>=2.9.0.post0",
+    "tox>=4.30.2",
     "tox-uv>=1.28.0",
 ]
 

@@ -50,10 +50,10 @@ def get_revision_from_metadata(app_name: str | None = None) -> str:
     return revision
 
 
-def get_revision_from_toml_file(path: Path) -> str | None:
+def get_revision_from_toml_file(path: Path | None = None) -> str | None:
     revision = None
     if not ignore_toml_file():
-        path = path / "pyproject.toml"
+        path = (path or Path(settings.BASE_DIR)) / "pyproject.toml"
         if path.exists():
             with path.open("rb") as f:
                 toml_data = tomllib.load(f)
@@ -62,10 +62,10 @@ def get_revision_from_toml_file(path: Path) -> str | None:
     return revision
 
 
-def get_revision_from_version_file(path: Path) -> str | None:
+def get_revision_from_version_file(path: Path | None = None) -> str | None:
     revision = None
     if not ignore_version_file():
-        path = path / "VERSION"
+        path = (path or Path(settings.BASE_DIR)) / "VERSION"
         if path.exists():
             with path.open("rb") as f:
                 revision = f.read().decode("utf-8")
