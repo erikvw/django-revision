@@ -271,7 +271,7 @@ requires-dist = [
 dev = [
     { name = "coverage", specifier = ">=7.10.3" },
     { name = "django", specifier = ">=5.2" },
-    { name = "edc-test-settings", editable = "../edc-test-settings" },
+    { name = "edc-test-settings", specifier = ">=1.1.2" },
     { name = "tox", specifier = ">=4.30.2" },
     { name = "tox-uv", specifier = ">=1.28.0" },
 ]
@@ -295,32 +295,13 @@ wheels = [
 [[package]]
 name = "edc-test-settings"
 version = "2.1.0"
-source = { editable = "../edc-test-settings" }
+source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "python-dateutil" },
 ]
-
-[package.metadata]
-requires-dist = [{ name = "python-dateutil", specifier = ">=2.9.0.post0" }]
-
-[package.metadata.requires-dev]
-docs = [
-    { name = "furo", specifier = ">=2025.7.19" },
-    { name = "sphinx", specifier = ">=8.2.3" },
-    { name = "sphinx-design", specifier = ">=0.6.1" },
-    { name = "sphinx-inline-tabs", specifier = ">=2023.4.21" },
-]
-lint = [
-    { name = "black", specifier = ">=25.1.0" },
-    { name = "deptry", specifier = ">=0.23.0" },
-    { name = "flake8", specifier = ">=7.3.0" },
-    { name = "isort", specifier = ">=6.0.1" },
-    { name = "ruff", specifier = ">=0.12.5" },
-]
-test = [
-    { name = "coverage", specifier = ">=7.10.1" },
-    { name = "django", specifier = ">=5.2.5" },
-    { name = "tox-uv", specifier = ">=1.26.2" },
+sdist = { url = "https://files.pythonhosted.org/packages/bb/3f/c79635282f797142ea3053d98de51348cbc690633659fe6cbe4c14c69334/edc_test_settings-2.1.0.tar.gz", hash = "sha256:191d9b8d11ba6119f25e60d09eb8642a1a71cbb294f7cebf41a40a4394eae144", size = 19672, upload-time = "2026-04-10T02:07:12.962Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/65/60/31963431bf607a91275deb82a569cd4ee28c1dd8e69957eec936c63d24d6/edc_test_settings-2.1.0-py3-none-any.whl", hash = "sha256:d902ffdf73f3998c47702d7d941f60b46cfc3f129b37aab22f38284f934dc646", size = 21835, upload-time = "2026-04-10T02:07:11.684Z" },
 ]
 
 [[package]]
